@@ -1,0 +1,49 @@
+/* Custom styles */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1e1e2e;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4a5568;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #718096;
+}
+
+/* Style for <details> (accordion) marker */
+summary::marker {
+    color: #a0aec0;
+}
+
+summary:hover::marker {
+    color: #cbd5e0;
+}
+
+/* Terminal styling */
+#terminal-output::after {
+    content: '▋';
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* 3D Canvas */
+#git-graph-3d {
+    width: 100%;
+    height: 400px;
+    background-color: #1a202c;
+    border-radius: 0.5rem;
+}

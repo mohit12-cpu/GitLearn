@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Git: Interactive Guide</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Three.js for 3D visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Load GSAP (optional, for smoother animations) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Load Inter font -->
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    
+    <!-- Tailwind Config -->
+    <script src="tailwind.config.js"></script>
+</head>
+<body class="bg-gray-100 dark:bg-dark-bg text-gray-900 dark:text-dark-text transition-colors duration-300">
+
+    <!-- Header / Navigation -->
+    <header class="bg-white dark:bg-dark-card shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <svg class="h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span class="ml-2 text-xl font-bold">GitLearn</span>
+                </div>
+                
+                <!-- Navigation Links - Desktop -->
+                <div class="hidden md:flex md:items-center md:space-x-8">
+                    <a href="#home" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium" data-page="home">Home</a>
+                    <a href="#workflow" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium" data-page="workflow">Workflow</a>
+                    <a href="#commands" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium" data-page="commands">Commands</a>
+                    <a href="#all-commands" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium" data-page="all-commands">All Commands</a>
+                    <a href="#ides" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium" data-page="ides">IDEs</a>
+                    <a href="#mastery" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium" data-page="mastery">Mastery</a>
+                </div>
+                
+                <!-- Dark Mode Toggle -->
+                <div class="flex items-center">
+                    <button id="dark-mode-toggle" class="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <!-- Sun icon -->
+                        <svg class="h-6 w-6 block dark:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707" />
+                        </svg>
+                        <!-- Moon icon -->
+                        <svg class="h-6 w-6 hidden dark:block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+                    <!-- Mobile Menu Button -->
+                    <div class="md:hidden ml-2">
+                        <button id="mobile-menu-button" class="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+                           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="nav-link mobile-nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-page="home">Home</a>
+                <a href="#workflow" class="nav-link mobile-nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-page="workflow">Workflow</a>
+                <a href="#commands" class="nav-link mobile-nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-page="commands">Commands</a>
+                <a href="#all-commands" class="nav-link mobile-nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-page="all-commands">All Commands</a>
+                <a href="#ides" class="nav-link mobile-nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-page="ides">IDEs</a>
+                <a href="#mastery" class="nav-link mobile-nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-page="mastery">Mastery</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- Page: Home / Introduction -->
+        <section id="home" class="page-section">
+            <div class="bg-white dark:bg-dark-card p-6 sm:p-8 rounded-lg shadow-lg text-center">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary mb-3 sm:mb-4">Welcome to GitLearn</h1>
+                <p class="text-lg sm:text-xl text-gray-700 dark:text-gray-300 mb-6 sm:mb-8">Your interactive guide to mastering Git and version control.</p>
+                <div class="flex justify-center mt-6">
+                    <a href="#commands" data-page="commands" class="nav-link-cta bg-primary text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-lg text-base sm:text-lg hover:bg-indigo-700 transition duration-300">
+                        Start Learning
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mt-8 sm:mt-12">
+                <!-- What is Git? -->
+                <div class="bg-white dark:bg-dark-card p-4 sm:p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">What is Git?</h2>
+                    <p class="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-3 sm:mb-4">
+                        Git is a free and open-source distributed version control system (VCS) designed to handle everything from small to very large projects with speed and efficiency.
+                    </p>
+                    <p class="text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        It allows you to track changes to your files over time, so you can revert to specific versions, compare changes, and collaborate with others on the same project without overwriting each other's work.
+                    </p>
+                </div>
+
+                <!-- Why use Git? -->
+                <div class="bg-white dark:bg-dark-card p-4 sm:p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Why Use Git?</h2>
+                    <ul class="list-disc list-inside space-y-1 sm:space-y-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                        <li><strong>Track History:</strong> See every change made to your project, by whom, and when.</li>
+                        <li><strong>Collaborate:</strong> Work with a team seamlessly. Git helps merge changes from multiple people.</li>
+                        <li><strong>Branching:</strong> Safely experiment with new features on "branches" without affecting the main project.</li>
+                        <li><strong>Revert Mistakes:</strong> Easily undo changes or go back to a previous, working state.</li>
+                        <li><strong>Industry Standard:</strong> Git is the most widely used VCS in software development.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Installation Guide -->
+            <div class="bg-white dark:bg-dark-card p-4 sm:p-6 rounded-lg shadow-md mt-8 sm:mt-12">
+                <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">Install Git</h2>
+                <!-- Tabs for OS -->
+                <div class="max-w-2xl mx-auto" x-data="{ tab: 'windows' }">
+                    <div class="flex flex-wrap border-b border-gray-300 dark:border-gray-600 mb-3 sm:mb-4">
+                        <button @click="tab = 'windows'" :class="{ 'border-primary text-primary': tab === 'windows' }" class="flex-1 py-2 font-medium border-b-2 border-transparent hover:border-gray-400 dark:hover:border-gray-500 transition text-sm sm:text-base">Windows</button>
+                        <button @click="tab = 'macos'" :class="{ 'border-primary text-primary': tab === 'macos' }" class="flex-1 py-2 font-medium border-b-2 border-transparent hover:border-gray-400 dark:hover:border-gray-500 transition text-sm sm:text-base">macOS</button>
+                        <button @click="tab = 'linux'" :class="{ 'border-primary text-primary': tab === 'linux' }" class="flex-1 py-2 font-medium border-b-2 border-transparent hover:border-gray-400 dark:hover:border-gray-500 transition text-sm sm:text-base">Linux</button>
+                    </div>
+                    
+                    <div x-show="tab === 'windows'" class="space-y-2 sm:space-y-3">
+                        <p class="text-sm sm:text-base">The easiest way to install Git on Windows is to use the official installer:</p>
+                        <ol class="list-decimal list-inside space-y-1 sm:space-y-2 text-sm sm:text-base">
+                            <li>Download the latest <strong>Git for Windows</strong> installer from <a href="https://git-scm.com/download/win" target="_blank" class="text-primary hover:underline">git-scm.com</a>.</li>
+                            <li>Run the installer and follow the on-screen prompts. The default settings are recommended for most users.</li>
+                            <li>This will install Git Bash (a command-line tool), the Git GUI, and shell integration.</li>
+                            <li>Verify installation by opening a new terminal (Git Bash or Command Prompt) and typing:</li>
+                        </ol>
+                        <pre class="bg-gray-800 text-white p-2 sm:p-3 rounded-lg text-xs sm:text-sm"><code>git --version</code></pre>
+                    </div>
+                    
+                    <div x-show="tab === 'macos'" class="space-y-2 sm:space-y-3" style="display: none;">
+                        <p class="text-sm sm:text-base">The easiest way to install Git on macOS is to install the <strong>Xcode Command Line Tools</strong>.</p>
+                        <ol class="list-decimal list-inside space-y-1 sm:space-y-2 text-sm sm:text-base">
+                            <li>Open a new Terminal.</li>
+                            <li>Try to run `git` by typing:</li>
+                        </ol>
+                        <pre class="bg-gray-800 text-white p-2 sm:p-3 rounded-lg text-xs sm:text-sm"><code>git --version</code></pre>
+                        <p class="text-sm sm:text-base">If you don't have Git installed, it will prompt you to install the command line tools. Follow the prompts.</p>
+                        <p class="font-bold text-sm sm:text-base">Alternatively (using Homebrew):</p>
+                        <p class="text-sm sm:text-base">If you have <a href="https://brew.sh/" target="_blank" class="text-primary hover:underline">Homebrew</a> installed, you can simply run:</p>
+                        <pre class="bg-gray-800 text-white p-2 sm:p-3 rounded-lg text-xs sm:text-sm"><code>brew install git</code></pre>
+                    </div>
+
+                    <div x-show="tab === 'linux'" class="space-y-2 sm:space-y-3" style="display: none;">
+                        <p class="text-sm sm:text-base">You can typically install Git using your distribution's package manager.</p>
+                        <p class="font-bold text-sm sm:text-base">Debian/Ubuntu (apt):</p>
+                        <pre class="bg-gray-800 text-white p-2 sm:p-3 rounded-lg text-xs sm:text-sm"><code>sudo apt update
+sudo apt install git</code></pre>
+                        <p class="font-bold text-sm sm:text-base">Fedora (dnf):</p>
+                        <pre class="bg-gray-800 text-white p-2 sm:p-3 rounded-lg text-xs sm:text-sm"><code>sudo dnf install git</code></pre>
+                        <p class="font-bold text-sm sm:text-base">Arch Linux (pacman):</p>
+                        <pre class="bg-gray-800 text-white p-2 sm:p-3 rounded-lg text-xs sm:text-sm"><code>sudo pacman -S git</code></pre>
+                        <p class="text-sm sm:text-base">After installation, verify it by running:</p>
+                        <pre class="bg-gray-800 text-white p-2 sm:p-3 rounded-lg text-xs sm:text-sm"><code>git --version</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Basic Workflow -->
+        <section id="workflow" class="page-section hidden">
+            <h1 class="text-3xl font-bold mb-6 text-center">Interactive Git Workflow</h1>
+            <p class="text-lg text-center text-gray-700 dark:text-gray-300 mb-8">
+                Visualize the core Git workflow. Click the buttons to see the 3D graph change.
+            </p>
+
+            <div class="grid md:grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <!-- 3D Visualization -->
+                <div class="bg-white dark:bg-dark-card p-4 rounded-lg shadow-lg">
+                    <h2 class="text-xl font-bold mb-4 text-center">3D Branching Model</h2>
+                    <canvas id="git-graph-3d" class="w-full h-64 sm:h-80"></canvas>
+                    <div class="flex flex-wrap justify-center gap-2 mt-4">
+                        <button id="btn-add-commit" class="bg-green-600 text-white py-2 px-3 sm:px-4 rounded-lg font-medium hover:bg-green-700 transition text-sm sm:text-base">Add Commit</button>
+                        <button id="btn-create-branch" class="bg-blue-600 text-white py-2 px-3 sm:px-4 rounded-lg font-medium hover:bg-blue-700 transition text-sm sm:text-base">Create Branch</button>
+                        <button id="btn-merge-branch" class="bg-purple-600 text-white py-2 px-3 sm:px-4 rounded-lg font-medium hover:bg-purple-700 transition text-sm sm:text-base">Merge Branch</button>
+                        <button id="btn-reset-graph" class="bg-red-600 text-white py-2 px-3 sm:px-4 rounded-lg font-medium hover:bg-red-700 transition text-sm sm:text-base">Reset</button>
+                    </div>
+                    <p class="text-center mt-2 text-sm text-gray-500 dark:text-gray-400">
+                        Active Branch: <span id="active-branch-label" class="font-bold text-primary">main</span>
+                    </p>
+                </div>
+                
+                <!-- Workflow Explanation -->
+                <div class="bg-white dark:bg-dark-card p-4 sm:p-6 rounded-lg shadow-lg space-y-4">
+                    <h2 class="text-xl sm:text-2xl font-bold mb-4">The Basic Workflow</h2>
+                    
+                    <div class="p-3 sm:p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                        <h3 class="font-bold text-base sm:text-lg">1. Initialize a Repository</h3>
+                        <p class="text-xs sm:text-sm">You start by creating a new Git repository in your project folder.</p>
+                        <code class="text-xs sm:text-sm text-pink-600 dark:text-pink-400">git init</code>
+                    </div>
+                    
+                    <div class="p-3 sm:p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                        <h3 class="font-bold text-base sm:text-lg">2. Make Changes</h3>
+                        <p class="text-xs sm:text-sm">You edit your project files (e.g., add new code, fix a bug).</p>
+                    </div>
+                    
+                    <div class="p-3 sm:p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                        <h3 class="font-bold text-base sm:text-lg">3. Stage Changes</h3>
+                        <p class="text-xs sm:text-sm">You select which changes you want to include in your next "snapshot" (commit).</p>
+                        <code class="text-xs sm:text-sm text-pink-600 dark:text-pink-400">git add &lt;filename&gt;</code> or <code class="text-xs sm:text-sm text-pink-600 dark:text-pink-400">git add .</code>
+                    </div>
+
+                    <div class="p-3 sm:p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                        <h3 class="font-bold text-base sm:text-lg">4. Commit Changes</h3>
+                        <p class="text-xs sm:text-sm">You save your staged changes as a new snapshot in the project's history, along with a descriptive message.</p>
+                        <code class="text-xs sm:text-sm text-pink-600 dark:text-pink-400">git commit -m "Your message"</code>
+                    </div>
+
+                    <div class="p-3 sm:p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                        <h3 class="font-bold text-base sm:text-lg">5. (Optional) Branch & Merge</h3>
+                        <p class="text-xs sm:text-sm">Create a new branch to work on a feature, make commits, and then merge it back into the main branch when ready.</p>
+                    </div>
+                    
+                    <div class="p-3 sm:p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                        <h3 class="font-bold text-base sm:text-lg">6. (Optional) Push to Remote</h3>
+                        <p class="text-xs sm:text-sm">If collaborating, you "push" your commits to a shared remote repository (like GitHub).</p>
+                        <code class="text-xs sm:text-sm text-pink-600 dark:text-pink-400">git push origin main</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Git Commands -->
+        <section id="commands" class="page-section hidden">
+            <h1 class="text-3xl font-bold mb-8 text-center">Git Command Reference</h1>
+            
+            <!-- Search and Filter Bar -->
+            <div class="sticky top-16 bg-gray-100 dark:bg-dark-bg py-4 z-40 mb-6">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <!-- Search Input -->
+                    <div class="flex-grow">
+                        <label for="search-bar" class="sr-only">Search commands</label>
+                        <input type="search" id="search-bar" placeholder="Search commands (e.g., commit, branch...)" class="w-full p-2 sm:p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-card focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    
+                    <!-- Category Filter -->
+                    <div class="flex-shrink-0">
+                        <label for="category-filter" class="sr-only">Filter by category</label>
+                        <select id="category-filter" class="w-full sm:w-auto p-2 sm:p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-card focus:outline-none focus:ring-2 focus:ring-primary">
+                            <option value="all">All Categories</option>
+                            <option value="setup">Setup & Config</option>
+                            <option value="snapshotting">Basic Snapshotting</option>
+                            <option value="branching">Branching & Merging</option>
+                            <option value="remote">Remote Repositories</option>
+                            <option value="undoing">Undoing Changes</option>
+                            <option value="history">Inspection & History</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Command List Container -->
+            <div id="command-list" class="space-y-4">
+                <!-- Commands will be dynamically inserted here by JavaScript -->
+                <p class="text-center text-gray-500">Loading commands...</p>
+            </div>
+            
+            <!-- "No results" message -->
+            <div id="no-results" class="hidden text-center text-gray-500 dark:text-gray-400 py-12">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 10l.01.01" />
+                </svg>
+                <h3 class="mt-2 text-lg font-medium">No Commands Found</h3>
+                <p class="mt-1 text-sm">Try adjusting your search or filter.</p>
+            </div>
+        </section>
+
+        <!-- Page: All Git Commands -->
+        <section id="all-commands" class="page-section hidden">
+            <h1 class="text-3xl font-bold mb-8 text-center">All Git Commands</h1>
+            
+            <!-- PDF Download Button -->
+            <div class="flex justify-center mb-6">
+                <a href="Complete Git Command Guide.pdf" download class="bg-primary hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded inline-flex items-center transition duration-300">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Download Complete Git Command Guide
+                </a>
+            </div>
+            
+            <!-- Search and Filter Bar -->
+            <div class="sticky top-16 bg-gray-100 dark:bg-dark-bg py-4 z-40 mb-6">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <!-- Search Input -->
+                    <div class="flex-grow">
+                        <label for="all-commands-search-bar" class="sr-only">Search commands</label>
+                        <input type="search" id="all-commands-search-bar" placeholder="Search commands (e.g., commit, branch...)" class="w-full p-2 sm:p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-card focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    
+                    <!-- Category Filter -->
+                    <div class="flex-shrink-0">
+                        <label for="all-commands-category-filter" class="sr-only">Filter by category</label>
+                        <select id="all-commands-category-filter" class="w-full sm:w-auto p-2 sm:p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-card focus:outline-none focus:ring-2 focus:ring-primary">
+                            <option value="all">All Categories</option>
+                            <option value="setup">Setup & Config</option>
+                            <option value="project">Getting & Creating Projects</option>
+                            <option value="snapshotting">Basic Snapshotting</option>
+                            <option value="branching">Branching & Merging</option>
+                            <option value="sharing">Sharing & Updating Projects</option>
+                            <option value="inspection">Inspection & Comparison</option>
+                            <option value="undoing">Undoing Things</option>
+                            <option value="advanced">Advanced Commands</option>
+                            <option value="collaboration">Collaboration / Remote Management</option>
+                            <option value="plumbing">Low-Level / Plumbing Commands</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Command Categories -->
+            <div id="all-commands-categories" class="space-y-8">
+                <!-- Categories will be dynamically inserted here by JavaScript -->
+                <p class="text-center text-gray-500">Loading commands...</p>
+            </div>
+            
+            <!-- "No results" message -->
+            <div id="all-commands-no-results" class="hidden text-center text-gray-500 dark:text-gray-400 py-12">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 10l.01.01" />
+                </svg>
+                <h3 class="mt-2 text-lg font-medium">No Commands Found</h3>
+                <p class="mt-1 text-sm">Try adjusting your search or filter.</p>
+            </div>
+        </section>
+
+        <!-- Page: IDE Integration -->
+        <section id="ides" class="page-section hidden">
+            <h1 class="text-3xl font-bold mb-8 text-center">Git in Your IDE</h1>
+            
+            <div class="max-w-4xl mx-auto" x-data="{ ideTab: 'vscode' }">
+                <!-- IDE Tabs -->
+                <div class="flex flex-wrap border-b border-gray-300 dark:border-gray-600 mb-6">
+                    <button @click="ideTab = 'vscode'" :class="{ 'border-primary text-primary': ideTab === 'vscode' }" class="flex-1 py-2 sm:py-3 font-medium border-b-2 border-transparent hover:border-gray-400 dark:hover:border-gray-500 transition text-base sm:text-lg">VS Code</button>
+                    <button @click="ideTab = 'jetbrains'" :class="{ 'border-primary text-primary': ideTab === 'jetbrains' }" class="flex-1 py-2 sm:py-3 font-medium border-b-2 border-transparent hover:border-gray-400 dark:hover:border-gray-500 transition text-base sm:text-lg">JetBrains (IntelliJ, PyCharm)</button>
+                </div>
+                
+                <!-- VS Code Content -->
+                <div x-show="ideTab === 'vscode'" class="bg-white dark:bg-dark-card p-4 sm:p-6 rounded-lg shadow-lg space-y-4 sm:space-y-6" style="display: none;">
+                    <h2 class="text-xl sm:text-2xl font-bold">Git in Visual Studio Code</h2>
+                    <p class="text-sm sm:text-base">VS Code has powerful, built-in Git integration that makes version control seamless. You can access it through the <strong>Source Control</strong> panel (the branching icon in the activity bar).</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                        <div>
+                            <h3 class="text-lg sm:text-xl font-semibold mb-2">Using the GUI</h3>
+                            <ul class="list-disc list-inside space-y-1 sm:space-y-2 text-sm sm:text-base">
+                                <li><strong>Staging:</strong> Click the <strong>+</strong> icon next to a changed file to stage it.</li>
+                                <li><strong>Committing:</strong> Type your commit message in the text box at the top and press <strong>Ctrl+Enter</strong> (or <strong>Cmd+Enter</strong>).</li>
+                                <li><strong>Branching:</strong> Click the branch name in the bottom-left status bar to create new branches or switch between existing ones.</li>
+                                <li><strong>Push/Pull:</strong> Use the "Sync Changes" button (also in the status bar) to push and pull commits.</li>
+                            </ul>
+                        </div>
+                        <img src="https://placehold.co/600x400/1f2937/d1d5db?text=VS+Code+Source+Control+Panel" alt="VS Code Git Panel" class="rounded-lg shadow-md object-cover w-full h-full">
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-semibold mb-2">Using the Integrated Terminal</h3>
+                        <p class="text-sm sm:text-base">You can also use all the Git commands you've learned directly in VS Code's integrated terminal.</p>
+                        <ol class="list-decimal list-inside space-y-1 sm:space-y-2 mt-2 text-sm sm:text-base">
+                            <li>Open the terminal with <strong>Ctrl+`</strong> (or <strong>Cmd+`</strong>).</li>
+                            <li>Type your Git commands just as you would in a standalone terminal.</li>
+                            <li>The Source Control panel will update in real-time to reflect your command-line changes.</li>
+                        </ol>
+                        <pre class="bg-gray-800 text-white p-2 sm:p-3 rounded-lg mt-3 sm:mt-4 text-xs sm:text-sm"><code># You can run this right in the VS Code terminal
+git status
+git add .
+git commit -m "Changes from VS Code terminal"</code></pre>
+                    </div>
+                </div>
+                
+                <!-- JetBrains Content -->
+                <div x-show="ideTab === 'jetbrains'" class="bg-white dark:bg-dark-card p-4 sm:p-6 rounded-lg shadow-lg space-y-4 sm:space-y-6" style="display: none;">
+                    <h2 class="text-xl sm:text-2xl font-bold">Git in JetBrains IDEs (IntelliJ, PyCharm, WebStorm)</h2>
+                    <p class="text-sm sm:text-base">JetBrains IDEs provide a comprehensive Git toolset, fully integrated into the user interface.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                        <div>
+                            <h3 class="text-lg sm:text-xl font-semibold mb-2">Key Features</h3>
+                            <ul class="list-disc list-inside space-y-1 sm:space-y-2 text-sm sm:text-base">
+                                <li><strong>Commit Window:</strong> A dedicated window (<strong>Ctrl+K</strong> or <strong>Cmd+K</strong>) shows changed files, allows you to write commit messages, and performs pre-commit checks.</li>
+                                <li><strong>Git Log:</strong> A powerful, visual Git log viewer shows all branches and commits, allowing you to filter, cherry-pick, and rebase visually.</li>
+                                <li><strong>Branching:</strong> A popup in the bottom-right status bar lets you manage all local and remote branches.</li>
+                                <li><strong>Gutter Indicators:</strong> The editor gutter shows lines that have been added, modified, or deleted, and you can click them to revert changes.</li>
+                            </ul>
+                        </div>
+                        <img src="https://placehold.co/600x400/1f2937/d1d5db?text=JetBrains+Git+Log+Window" alt="JetBrains Git Log" class="rounded-lg shadow-md object-cover w-full h-full">
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-semibold mb-2">Terminal vs. GUI</h3>
+                        <p class="text-sm sm:text-base">Like VS Code, JetBrains IDEs also include an integrated terminal (<strong>Alt+F12</strong>) where you can run raw Git commands. Many developers use a hybrid approach: the GUI for complex operations like visual merging and history inspection, and the terminal for quick commands like `git status` or `git add`.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Page: Git Mastery -->
+        <section id="mastery" class="page-section hidden">
+            <h1 class="text-3xl font-bold mb-8 text-center">Git Mastery Challenge</h1>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                <!-- Learning Path -->
+                <div class="bg-white dark:bg-dark-card p-4 sm:p-6 rounded-lg shadow-lg">
+                    <h2 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Your Learning Path</h2>
+                    <ol class="relative border-l border-gray-300 dark:border-gray-600 space-y-4 sm:space-y-6">
+                        <li class="ml-4 sm:ml-6">
+                            <span class="absolute flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-blue-200 rounded-full -left-3 ring-8 ring-white dark:ring-dark-card dark:bg-blue-900">
+                                <svg class="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-800 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path></svg>
+                            </span>
+                            <h3 class="text-base sm:text-lg font-semibold">Beginner: The Basics</h3>
+                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Focus on `init`, `config`, `add`, `commit`, `status`, and `log`.</p>
+                        </li>
+                        <li class="ml-4 sm:ml-6">
+                            <span class="absolute flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-blue-200 rounded-full -left-3 ring-8 ring-white dark:ring-dark-card dark:bg-blue-900">
+                                <svg class="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-800 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path></svg>
+                            </span>
+                            <h3 class="text-base sm:text-lg font-semibold">Intermediate: Collaboration</h3>
+                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Master `branch`, `checkout`, `merge`, `remote`, `push`, and `pull`.</p>
+                        </li>
+                        <li class="ml-4 sm:ml-6">
+                            <span class="absolute flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-gray-200 rounded-full -left-3 ring-8 ring-white dark:ring-dark-card dark:bg-gray-700">
+                                <svg class="w-2.5 h-2.5 sm:w-3 sm:h-3 text-gray-800 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16z"></path></svg>
+                            </span>
+                            <h3 class="text-base sm:text-lg font-semibold">Advanced: The "Git-fu"</h3>
+                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Explore `rebase`, `stash`, `reset`, `cherry-pick`, and `reflog`.</p>
+                        </li>
+                    </ol>
+                </div>
+                
+                <!-- Quiz -->
+                <div class="bg-white dark:bg-dark-card p-4 sm:p-6 rounded-lg shadow-lg" id="quiz-container">
+                    <h2 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Quick Quiz</h2>
+                    <div id="quiz-content">
+                        <!-- Quiz questions will be injected here -->
+                    </div>
+                    <div id="quiz-result" class_="mt-3 sm:mt-4 text-base sm:text-lg font-medium"></div>
+                    <button id="quiz-next-btn" class="hidden mt-3 sm:mt-4 bg-primary text-white py-2 px-4 rounded-lg font-medium hover:bg-indigo-700 transition text-sm sm:text-base">Next Question</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 mt-12 bg-gray-200 dark:bg-dark-card border-t border-gray-300 dark:border-gray-700">
+        <p class="text-gray-600 dark:text-gray-400">Created with ❤️ for interactive Git learning.</p>
+    </footer>
+
+    <!-- Copy-to-clipboard temp textarea -->
+    <textarea id="clipboard-helper" class="absolute -left-full"></textarea>
+
+
+    <!-- Main JavaScript Logic -->
+    <script>
+        
+        // --- DATA: ALL GIT COMMANDS ---
+        const allGitCommands = [
+            // A. Setup & Configuration
+            {
+                command: 'git config',
+                category: 'setup',
+                description: "Get and set repository or global options.",
+                syntax: 'git config [--global] <key> [<value>]',
+                example: 'git config --global user.name "John Doe"\ngit config --global user.email "john.doe@example.com"\ngit config --list',
+                vsCode: "In VS Code, you can view and edit Git configuration through the Settings UI (Ctrl/Cmd + ,) or by editing the .git/config file directly."
+            },
+            {
+                command: 'git help',
+                category: 'setup',
+                description: "Display help information about Git.",
+                syntax: 'git help <command>',
+                example: 'git help commit\ngit help --all',
+                vsCode: "In VS Code, press Ctrl/Cmd + Shift + P and type 'Git' to see available Git commands and their descriptions."
+            },
+            {
+                command: 'git version',
+                category: 'setup',
+                description: "Display the version of Git installed.",
+                syntax: 'git version',
+                example: 'git version',
+                vsCode: "In VS Code, you can check the Git version in the terminal by running 'git version'."
+            },
+            {
+                command: 'git init',
+                category: 'setup',
+                description: "Create an empty Git repository or reinitialize an existing one.",
+                syntax: 'git init [<directory>]',
+                example: 'git init\ngit init my-project',
+                vsCode: "In VS Code, you can initialize a Git repository by opening a folder and clicking 'Initialize Repository' in the Source Control panel."
+            },
+
+            // B. Getting & Creating Projects
+            {
+                command: 'git clone',
+                category: 'project',
+                description: "Clone a repository into a new directory.",
+                syntax: 'git clone <repository> [<directory>]',
+                example: 'git clone https://github.com/user/repo.git\ngit clone git@github.com:user/repo.git my-local-repo',
+                vsCode: "In VS Code, you can clone a repository by selecting 'Clone Repository' from the Source Control panel or using the Command Palette (Ctrl/Cmd + Shift + P) and typing 'Git: Clone'."
+            },
+            {
+                command: 'git fetch',
+                category: 'project',
+                description: "Download objects and refs from another repository.",
+                syntax: 'git fetch [<options>] [<repository> [<refspec>...]]',
+                example: 'git fetch\ngit fetch origin\ngit fetch origin feature-branch',
+                vsCode: "In VS Code, fetching is done automatically when you open the Source Control panel, or you can click the '...' menu and select 'Fetch'."
+            },
+
+            // C. Basic Snapshotting
+            {
+                command: 'git add',
+                category: 'snapshotting',
+                description: "Add file contents to the index.",
+                syntax: 'git add [--all | <pathspec>...]',
+                example: 'git add README.md\ngit add .\ngit add --all',
+                vsCode: "In VS Code, you can stage changes by clicking the '+' icon next to each file in the Source Control panel, or by using the Command Palette with 'Git: Stage'."
+            },
+            {
+                command: 'git commit',
+                category: 'snapshotting',
+                description: "Record changes to the repository.",
+                syntax: 'git commit [-m <msg>]',
+                example: 'git commit -m "Add new feature"\ngit commit -a -m "Update documentation"',
+                vsCode: "In VS Code, you can commit by typing a message in the Source Control panel and pressing Ctrl/Cmd + Enter, or by using the Command Palette with 'Git: Commit'."
+            },
+            {
+                command: 'git status',
+                category: 'snapshotting',
+                description: "Show the working tree status.",
+                syntax: 'git status [<options>]',
+                example: 'git status\ngit status --short',
+                vsCode: "The Source Control panel in VS Code automatically shows the status of your repository with color-coded indicators."
+            },
+            {
+                command: 'git diff',
+                category: 'snapshotting',
+                description: "Show changes between commits, commit and working tree, etc.",
+                syntax: 'git diff [<options>] [<commit>] [--] [<path>...]',
+                example: 'git diff\ngit diff HEAD~1\ngit diff --staged',
+                vsCode: "In VS Code, you can see diffs by clicking on a file in the Source Control panel or by using the Command Palette with 'Git: Diff'."
+            },
+            {
+                command: 'git rm',
+                category: 'snapshotting',
+                description: "Remove files from the working tree and from the index.",
+                syntax: 'git rm [--force] [--cached] [--] <file>...',
+                example: 'git rm file.txt\ngit rm --cached file.txt\ngit rm -r directory/',
+                vsCode: "In VS Code, you can remove files by deleting them in the Explorer panel and committing the changes, or by right-clicking and selecting 'Delete'."
+            },
+            {
+                command: 'git mv',
+                category: 'snapshotting',
+                description: "Move or rename a file, a directory, or a symlink.",
+                syntax: 'git mv <source> <destination>',
+                example: 'git mv old-name.txt new-name.txt\ngit mv file.txt directory/',
+                vsCode: "In VS Code, you can rename files by right-clicking in the Explorer panel and selecting 'Rename', then committing the changes."
+            },
+
+            // D. Branching & Merging
+            {
+                command: 'git branch',
+                category: 'branching',
+                description: "List, create, or delete branches.",
+                syntax: 'git branch [--list | -a | -r] [<branchname>]',
+                example: 'git branch\ngit branch -a\ngit branch new-feature\ngit branch -d old-feature',
+                vsCode: "In VS Code, you can view and manage branches through the status bar at the bottom or by using the Command Palette with 'Git: Checkout to'."
+            },
+            {
+                command: 'git checkout',
+                category: 'branching',
+                description: "Switch branches or restore working tree files.",
+                syntax: 'git checkout <branch>',
+                example: 'git checkout main\ngit checkout -b new-feature\ngit checkout -- file.txt',
+                vsCode: "In VS Code, you can switch branches by clicking on the branch name in the status bar or using the Command Palette with 'Git: Checkout to'."
+            },
+            {
+                command: 'git switch',
+                category: 'branching',
+                description: "Switch branches (newer command, similar to checkout).",
+                syntax: 'git switch <branch>',
+                example: 'git switch main\ngit switch -c new-feature',
+                vsCode: "In VS Code, you can switch branches by clicking on the branch name in the status bar or using the Command Palette with 'Git: Switch to'."
+            },
+            {
+                command: 'git merge',
+                category: 'branching',
+                description: "Join two or more development histories together.",
+                syntax: 'git merge <branch>',
+                example: 'git merge feature-branch\ngit merge --no-ff feature-branch',
+                vsCode: "In VS Code, you can merge branches by switching to the target branch and using the Command Palette with 'Git: Merge'."
+            },
+            {
+                command: 'git rebase',
+                category: 'branching',
+                description: "Reapply commits on top of another base tip.",
+                syntax: 'git rebase <upstream>',
+                example: 'git rebase main\ngit rebase -i HEAD~3',
+                vsCode: "In VS Code, you can rebase by using the Command Palette with 'Git: Rebase'."
+            },
+            {
+                command: 'git cherry-pick',
+                category: 'branching',
+                description: "Apply the changes introduced by some existing commits.",
+                syntax: 'git cherry-pick <commit>...',
+                example: 'git cherry-pick abc123\ngit cherry-pick abc123 def456',
+                vsCode: "In VS Code, you can cherry-pick commits by using the Command Palette with 'Git: Cherry Pick'."
+            },
+            {
+                command: 'git tag',
+                category: 'branching',
+                description: "Create, list, delete or verify a tag object signed with GPG.",
+                syntax: 'git tag [-a] <tagname> [<commit>]',
+                example: 'git tag v1.0.0\ngit tag -a v1.0.0 -m "Release version 1.0.0"\ngit tag -d v1.0.0',
+                vsCode: "In VS Code, you can create tags by using the Command Palette with 'Git: Create Tag'."
+            },
+
+            // E. Sharing & Updating Projects
+            {
+                command: 'git push',
+                category: 'sharing',
+                description: "Update remote refs along with associated objects.",
+                syntax: 'git push [<options>] [<repository> [<refspec>...]]',
+                example: 'git push\ngit push origin main\ngit push --tags',
+                vsCode: "In VS Code, you can push by clicking the 'Sync Changes' button in the status bar or using the Command Palette with 'Git: Push'."
+            },
+            {
+                command: 'git pull',
+                category: 'sharing',
+                description: "Fetch from and integrate with another repository or a local branch.",
+                syntax: 'git pull [<options>] [<repository> [<refspec>...]]',
+                example: 'git pull\ngit pull origin main\ngit pull --rebase',
+                vsCode: "In VS Code, you can pull by clicking the 'Sync Changes' button in the status bar or using the Command Palette with 'Git: Pull'."
+            },
+            {
+                command: 'git remote',
+                category: 'sharing',
+                description: "Manage set of tracked repositories.",
+                syntax: 'git remote [-v] [<command> [<name> [<url>]]]',
+                example: 'git remote -v\ngit remote add upstream https://github.com/original/repo.git\ngit remote remove upstream',
+                vsCode: "In VS Code, you can manage remotes by editing the .git/config file or using Git commands in the terminal."
+            },
+
+            // F. Inspection & Comparison
+            {
+                command: 'git log',
+                category: 'inspection',
+                description: "Show commit logs.",
+                syntax: 'git log [<options>] [<revision-range>] [[--] <path>...]',
+                example: 'git log\ngit log --oneline\ngit log --graph --oneline --all',
+                vsCode: "In VS Code, you can view commit history by clicking on the '...' menu in the Source Control panel and selecting 'Show Git Output'."
+            },
+            {
+                command: 'git show',
+                category: 'inspection',
+                description: "Show various types of objects.",
+                syntax: 'git show [<options>] <object>...',
+                example: 'git show\ngit show HEAD\ngit show abc123',
+                vsCode: "In VS Code, you can view commit details by clicking on a commit in the Git history view."
+            },
+            {
+                command: 'git shortlog',
+                category: 'inspection',
+                description: "Summarize 'git log' output.",
+                syntax: 'git shortlog [<options>] [<revision-range>] [[--] <path>...]',
+                example: 'git shortlog\ngit shortlog -s\ngit shortlog -n',
+                vsCode: "In VS Code, you can use this command in the integrated terminal."
+            },
+            {
+                command: 'git describe',
+                category: 'inspection',
+                description: "Give an object a human readable name based on an available ref.",
+                syntax: 'git describe [<options>] <committish>*',
+                example: 'git describe\ngit describe --tags',
+                vsCode: "In VS Code, you can use this command in the integrated terminal."
+            },
+            {
+                command: 'git blame',
+                category: 'inspection',
+                description: "Show what revision and author last modified each line of a file.",
+                syntax: 'git blame [<options>] [<rev>] [--] <file>',
+                example: 'git blame README.md\ngit blame -L 10,20 file.txt',
+                vsCode: "In VS Code, you can use the GitLens extension to view blame information inline."
+            },
+
+            // G. Undoing Things
+            {
+                command: 'git reset',
+                category: 'undoing',
+                description: "Reset current HEAD to the specified state.",
+                syntax: 'git reset [--soft | --mixed | --hard] [<commit>]',
+                example: 'git reset HEAD~1\ngit reset --soft HEAD~1\ngit reset --hard HEAD~1',
+                vsCode: "In VS Code, you can reset commits by using the Command Palette with 'Git: Reset'."
+            },
+            {
+                command: 'git restore',
+                category: 'undoing',
+                description: "Restore working tree files.",
+                syntax: 'git restore [<options>] [--source=<tree>] [--staged] [--worktree] [--] <pathspec>...',
+                example: 'git restore file.txt\ngit restore --staged file.txt\ngit restore --source=HEAD~1 file.txt',
+                vsCode: "In VS Code, you can restore files by clicking the 'Discard Changes' button in the Source Control panel."
+            },
+            {
+                command: 'git revert',
+                category: 'undoing',
+                description: "Revert some existing commits.",
+                syntax: 'git revert <commit>...',
+                example: 'git revert HEAD\ngit revert abc123',
+                vsCode: "In VS Code, you can revert commits by using the Command Palette with 'Git: Revert Commit'."
+            },
+            {
+                command: 'git clean',
+                category: 'undoing',
+                description: "Remove untracked files from the working tree.",
+                syntax: 'git clean [-d] [-f] [-i] [-n] [-q] [-e <pattern>] [-x | -X] [--] <path>...',
+                example: 'git clean -f\ngit clean -fd\ngit clean -n',
+                vsCode: "In VS Code, you can clean untracked files by using Git commands in the terminal."
+            },
+
+            // H. Advanced Commands
+            {
+                command: 'git reflog',
+                category: 'advanced',
+                description: "Manage reflog information.",
+                syntax: 'git reflog [<options>] [<ref>]',
+                example: 'git reflog\ngit reflog show\ngit reflog delete HEAD@{0}',
+                vsCode: "In VS Code, you can use this command in the integrated terminal to recover lost commits."
+            },
+            {
+                command: 'git bisect',
+                category: 'advanced',
+                description: "Use binary search to find the commit that introduced a bug.",
+                syntax: 'git bisect <subcommand> [<options>]',
+                example: 'git bisect start\ngit bisect bad\ngit bisect good v1.0.0',
+                vsCode: "In VS Code, you can use this command in the integrated terminal for debugging."
+            },
+            {
+                command: 'git stash',
+                category: 'advanced',
+                description: "Stash the changes in a dirty working directory away.",
+                syntax: 'git stash [<subcommand>] [<options>] [--] [<pathspec>...]',
+                example: 'git stash\ngit stash push -m "Work in progress"\ngit stash pop\ngit stash list',
+                vsCode: "In VS Code, you can stash changes by using the Command Palette with 'Git: Stash'."
+            },
+            {
+                command: 'git submodule',
+                category: 'advanced',
+                description: "Initialize, update or inspect submodules.",
+                syntax: 'git submodule [--quiet] add [-b <branch>] [-f] [--name <name>] [--reference <repository>] [--] <repository> [<path>]',
+                example: 'git submodule add https://github.com/user/repo.git libs/repo\ngit submodule update --init --recursive',
+                vsCode: "In VS Code, you can manage submodules by using Git commands in the terminal."
+            },
+            {
+                command: 'git filter-branch',
+                category: 'advanced',
+                description: "Rewrite branches (deprecated, use filter-repo instead).",
+                syntax: 'git filter-branch [--env-filter <command>] [--tree-filter <command>] [--index-filter <command>] [--parent-filter <command>] [--msg-filter <command>] [--commit-filter <command>] [--tag-name-filter <command>] [--subdirectory-filter <directory>] [--prune-empty] [--original <namespace>] [-d <directory>] [-f | --force] [--state-branch <branch>] [--] [<rev-list-options>...]',
+                example: 'git filter-branch --tree-filter \'rm -f passwords.txt\' HEAD\ngit filter-branch --subdirectory-filter mydir HEAD',
+                vsCode: "In VS Code, you can use this command in the integrated terminal, but consider using git-filter-repo instead."
+            },
+            {
+                command: 'git gc',
+                category: 'advanced',
+                description: "Cleanup unnecessary files and optimize the local repository.",
+                syntax: 'git gc [--aggressive] [--auto] [--quiet] [--prune[=<date>]] [--force]',
+                example: 'git gc\ngit gc --aggressive',
+                vsCode: "In VS Code, you can run this command in the integrated terminal to optimize your repository."
+            },
+            {
+                command: 'git fsck',
+                category: 'advanced',
+                description: "Verifies the connectivity and validity of the objects in the database.",
+                syntax: 'git fsck [--tags] [--root] [--unreachable] [--cache] [--no-reflogs] [--[no-]full] [--connectivity-only] [--strict] [--verbose] [--progress] [--lost-found] [<object>*]',
+                example: 'git fsck\ngit fsck --full',
+                vsCode: "In VS Code, you can use this command in the integrated terminal to check repository integrity."
+            },
+            {
+                command: 'git prune',
+                category: 'advanced',
+                description: "Prune all unreachable objects from the object database.",
+                syntax: 'git prune [-n] [-v] [--progress] [--expire <time>] [--] [<object>...]',
+                example: 'git prune\ngit prune --dry-run',
+                vsCode: "In VS Code, you can use this command in the integrated terminal to clean up unreachable objects."
+            },
+
+            // I. Collaboration / Remote Management
+            {
+                command: 'git archive',
+                category: 'collaboration',
+                description: "Create an archive of files from a named tree.",
+                syntax: 'git archive [--format=<fmt>] [--list] [--prefix=<prefix>/] [<extra>] [-o <file> | --output=<file>] [--worktree-attributes] [--remote=<repo> [--exec=<git-upload-archive>]] <tree-ish> [<path>...]',
+                example: 'git archive --format=zip --output=release.zip HEAD\ngit archive --format=tar HEAD | gzip > release.tar.gz',
+                vsCode: "In VS Code, you can use this command in the integrated terminal to create release archives."
+            },
+
+            // J. Low-Level / Plumbing Commands
+            {
+                command: 'git cat-file',
+                category: 'plumbing',
+                description: "Provide content or type and size information for repository objects.",
+                syntax: 'git cat-file (-t [--allow-unknown-type] | -s [--allow-unknown-type] | -e | -p | <type> | --textconv | --filters) [--path=<path>] <object>',
+                example: 'git cat-file -p HEAD\ngit cat-file -t abc123',
+                vsCode: "In VS Code, you can use this command in the integrated terminal for low-level Git operations."
+            },
+            {
+                command: 'git update-index',
+                category: 'plumbing',
+                description: "Register file contents in the working tree to the index.",
+                syntax: 'git update-index [--add] [--remove | --force-remove] [--replace] [--refresh] [-q] [--ignore-submodules] [--unmerged] [--ignore-missing] [--cacheinfo <mode> <object> <path>] [--chmod (+|-)x] [--[no-]assume-unchanged] [--[no-]skip-worktree] [--fsmonitor-valid] [--ignore-skip-worktree-entries] [--info-only] [--force-remove] [--replace] [--stdin] [--index-info] [--unresolve] [--again | -g] [--info-only] [--chmod=(+|-)x] [--[no-]skip-worktree] [--[no-]assume-unchanged] [--fsmonitor-valid] [<file>...]',
+                example: 'git update-index --chmod=+x script.sh\ngit update-index --assume-unchanged config.ini',
+                vsCode: "In VS Code, you can use this command in the integrated terminal for advanced index operations."
+            },
+            {
+                command: 'git write-tree',
+                category: 'plumbing',
+                description: "Create a tree object from the current index.",
+                syntax: 'git write-tree [--missing-ok] [--prefix=<prefix>/]',
+                example: 'git write-tree',
+                vsCode: "In VS Code, you can use this command in the integrated terminal for low-level Git operations."
+            },
+            {
+                command: 'git read-tree',
+                category: 'plumbing',
+                description: "Reads tree information into the index.",
+                syntax: 'git read-tree [--dry-run] (-m [-u] | -i | --index-output=<file> | --no-recurse) [--aggressive] [--reset] [--prefix=<prefix>/] [--exclude-per-directory=<gitignore>] [--recurse-submodules] <tree-ish>',
+                example: 'git read-tree abc123',
+                vsCode: "In VS Code, you can use this command in the integrated terminal for low-level Git operations."
+            },
+            {
+                command: 'git rev-parse',
+                category: 'plumbing',
+                description: "Pick out and massage parameters.",
+                syntax: 'git rev-parse [--option] <argument>...',
+                example: 'git rev-parse HEAD\ngit rev-parse --git-dir',
+                vsCode: "In VS Code, you can use this command in the integrated terminal to parse Git revisions."
+            },
+            {
+                command: 'git rev-list',
+                category: 'plumbing',
+                description: "Lists commit objects in reverse chronological order.",
+                syntax: 'git rev-list [--max-count=<number>] [--skip=<number>] [--max-age=<timestamp>] [--min-age=<timestamp>] [--reverse] [--first-parent] [--no-merges] [--merges] [--topo-order] [--date-order] [--author=<pattern>] [--committer=<pattern>] [--grep-reflog=<pattern>] [--grep=<pattern>] [-i | --regexp-ignore-case] [--all-match] [--remove-empty] [--all] [--branches[=<pattern>]] [--tags[=<pattern>]] [--remotes[=<pattern>]] [--glob=<glob-pattern>] [--stdin] [--quiet] [--pretty[=<format>]] [--[no-]progress] <commit>... [-- <path>...]',
+                example: 'git rev-list HEAD\ngit rev-list --count HEAD',
+                vsCode: "In VS Code, you can use this command in the integrated terminal to list commits."
+            },
+            {
+                command: 'git show-ref',
+                category: 'plumbing',
+                description: "List references in a local repository.",
+                syntax: 'git show-ref [--head] [-d | --dereference] [-s | --hash[=<n>]] [--verify] [--abbrev[=<n>]] [--tags] [--heads] [--] [<pattern>...]',
+                example: 'git show-ref\ngit show-ref --tags',
+                vsCode: "In VS Code, you can use this command in the integrated terminal to show references."
+            },
+            {
+                command: 'git pack-objects',
+                category: 'plumbing',
+                description: "Create a packed archive of objects.",
+                syntax: 'git pack-objects [--reuse-delta] [--reuse-object] [-n] [-d] [-q] [--window=<n>] [--depth=<n>] [--window-memory=<n>] [--max-pack-size=<n>] [--honor-pack-keep] [--keep-unreachable] [--pack-loose-unreachable] [--unpack-unreachable=<time>] [--delta-base-offset] [--non-empty] [--local] [--incremental] [--stdin-packs] [--revs [--unpacked]] [--all] [--include-tag] [--keep-pack=<pack-name>] [--compression=<N>] [--thin] [--shallow] [--progress] [--window-edge] [<object-list-file>]',
+                example: 'git pack-objects --stdout < object-list.txt > pack-file.pack',
+                vsCode: "In VS Code, you can use this command in the integrated terminal for advanced Git operations."
+            }
+        ];
+
+        // --- DATA: GIT COMMANDS (Subset for Command Reference) ---
+        const commands = [
+            // Setup & Configuration
+            {
+                command: 'git config',
+                category: 'setup',
+                description: "Get and set repository or global options.",
+                syntax: 'git config [--global] <key> [<value>]',
+                example: 'git config --global user.name "John Doe"\ngit config --global user.email "john.doe@example.com"\ngit config --list'
+            },
+            {
+                command: 'git init',
+                category: 'setup',
+                description: "Create an empty Git repository or reinitialize an existing one.",
+                syntax: 'git init [<directory>]',
+                example: 'git init\ngit init my-project'
+            },
+            {
+                command: 'git clone',
+                category: 'setup',
+                description: "Clone a repository into a new directory.",
+                syntax: 'git clone <repository> [<directory>]',
+                example: 'git clone https://github.com/user/repo.git\ngit clone git@github.com:user/repo.git my-local-repo'
+            },
+
+            // Basic Snapshotting
+            {
+                command: 'git add',
+                category: 'snapshotting',
+                description: "Add file contents to the index.",
+                syntax: 'git add [--all | <pathspec>...]',
+                example: 'git add README.md\ngit add .\ngit add --all'
+            },
+            {
+                command: 'git status',
+                category: 'snapshotting',
+                description: "Show the working tree status.",
+                syntax: 'git status [<options>]',
+                example: 'git status\ngit status --short'
+            },
+            {
+                command: 'git diff',
+                category: 'snapshotting',
+                description: "Show changes between commits, commit and working tree, etc.",
+                syntax: 'git diff [<options>] [<commit>] [--] [<path>...]',
+                example: 'git diff\ngit diff HEAD~1\ngit diff --staged'
+            },
+            {
+                command: 'git commit',
+                category: 'snapshotting',
+                description: "Record changes to the repository.",
+                syntax: 'git commit [-m <msg>]',
+                example: 'git commit -m "Add new feature"\ngit commit -a -m "Update documentation"'
+            },
+
+            // Branching & Merging
+            {
+                command: 'git branch',
+                category: 'branching',
+                description: "List, create, or delete branches.",
+                syntax: 'git branch [--list | -a | -r] [<branchname>]',
+                example: 'git branch\ngit branch -a\ngit branch new-feature\ngit branch -d old-feature'
+            },
+            {
+                command: 'git checkout',
+                category: 'branching',
+                description: "Switch branches or restore working tree files.",
+                syntax: 'git checkout <branch>',
+                example: 'git checkout main\ngit checkout -b new-feature\ngit checkout -- file.txt'
+            },
+            {
+                command: 'git merge',
+                category: 'branching',
+                description: "Join two or more development histories together.",
+                syntax: 'git merge <branch>',
+                example: 'git merge feature-branch\ngit merge --no-ff feature-branch'
+            },
+
+            // Remote Repositories
+            {
+                command: 'git remote',
+                category: 'remote',
+                description: "Manage set of tracked repositories.",
+                syntax: 'git remote [-v] [<command> [<name> [<url>]]]',
+                example: 'git remote -v\ngit remote add upstream https://github.com/original/repo.git\ngit remote remove upstream'
+            },
+            {
+                command: 'git fetch',
+                category: 'remote',
+                description: "Download objects and refs from another repository.",
+                syntax: 'git fetch [<options>] [<repository> [<refspec>...]]',
+                example: 'git fetch\ngit fetch origin\ngit fetch origin feature-branch'
+            },
+            {
+                command: 'git pull',
+                category: 'remote',
+                description: "Fetch from and integrate with another repository or a local branch.",
+                syntax: 'git pull [<options>] [<repository> [<refspec>...]]',
+                example: 'git pull\ngit pull origin main\ngit pull --rebase'
+            },
+            {
+                command: 'git push',
+                category: 'remote',
+                description: "Update remote refs along with associated objects.",
+                syntax: 'git push [<options>] [<repository> [<refspec>...]]',
+                example: 'git push\ngit push origin main\ngit push --tags'
+            },
+
+            // Inspection & History
+            {
+                command: 'git log',
+                category: 'history',
+                description: "Show commit logs.",
+                syntax: 'git log [<options>] [<revision-range>] [[--] <path>...]',
+                example: 'git log\ngit log --oneline\ngit log --graph --oneline --all'
+            },
+            {
+                command: 'git show',
+                category: 'history',
+                description: "Show various types of objects.",
+                syntax: 'git show [<options>] <object>...',
+                example: 'git show\ngit show HEAD\ngit show abc123'
+            },
+
+            // Undoing Changes
+            {
+                command: 'git reset',
+                category: 'undoing',
+                description: "Reset current HEAD to the specified state.",
+                syntax: 'git reset [--soft | --mixed | --hard] [<commit>]',
+                example: 'git reset HEAD~1\ngit reset --soft HEAD~1\ngit reset --hard HEAD~1'
+            },
+            {
+                command: 'git revert',
+                category: 'undoing',
+                description: "Revert some existing commits.",
+                syntax: 'git revert <commit>...',
+                example: 'git revert HEAD\ngit revert abc123'
+            },
+
+            // Advanced
+            {
+                command: 'git stash',
+                category: 'advanced',
+                description: "Stash the changes in a dirty working directory away.",
+                syntax: 'git stash [<subcommand>] [<options>] [--] [<pathspec>...]',
+                example: 'git stash\ngit stash push -m "Work in progress"\ngit stash pop\ngit stash list'
+            },
+            {
+                command: 'git rebase',
+                category: 'advanced',
+                description: "Reapply commits on top of another base tip.",
+                syntax: 'git rebase <upstream>',
+                example: 'git rebase main\ngit rebase -i HEAD~3'
+            }
+        ];
+
+        // Category names mapping
+        const allCommandsCategoryNames = {
+            'setup': 'Setup & Configuration',
+            'project': 'Getting & Creating Projects',
+            'snapshotting': 'Basic Snapshotting',
+            'branching': 'Branching & Merging',
+            'sharing': 'Sharing & Updating Projects',
+            'inspection': 'Inspection & Comparison',
+            'undoing': 'Undoing Things',
+            'advanced': 'Advanced Commands',
+            'collaboration': 'Collaboration / Remote Management',
+            'plumbing': 'Low-Level / Plumbing Commands'
+        };
+
+        // Category colors mapping
+        const allCommandsCategoryColors = {
+            'setup': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+            'project': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+            'snapshotting': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
+            'branching': 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300',
+            'sharing': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+            'inspection': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+            'undoing': 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300',
+            'advanced': 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-300',
+            'collaboration': 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-300',
+            'plumbing': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+        };
+        
+        // --- DATA: QUIZ QUESTIONS ---
+        const quizData = [
+            {
+                question: "Which command initializes a new Git repository?",
+                answers: ["git init", "git start", "git new", "git create"],
+                correct: "git init"
+            },
+            {
+                question: "What command stages a file for a commit?",
+                answers: ["git commit", "git stage", "git add", "git save"],
+                correct: "git add"
+            },
+            {
+                question: "How do you check the state of your working directory and staging area?",
+                answers: ["git check", "git log", "git diff", "git status"],
+                correct: "git status"
+            },
+            {
+                question: "Which command creates a new branch AND switches to it?",
+                answers: ["git branch -n", "git checkout -b", "git new-branch", "git switch"],
+                correct: "git checkout -b"
+            },
+            {
+                question: "What command downloads changes from a remote but does NOT merge them?",
+                answers: ["git pull", "git download", "git fetch", "git update"],
+                correct: "git fetch"
+            },
+            {
+                question: "How do you safely undo a commit that has already been pushed to a remote?",
+                answers: ["git reset --hard", "git revert", "git undo", "git delete"],
+                correct: "git revert"
+            }
+        ];
+
+        
+        // --- Wait for DOM to load ---
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+                
+                // Close mobile menu when clicking on a nav link
+                const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+            
+            // --- All Git Commands Page Logic ---
+            const allCommandsContainer = document.getElementById('all-commands-categories');
+            const allCommandsSearchBar = document.getElementById('all-commands-search-bar');
+            const allCommandsCategoryFilter = document.getElementById('all-commands-category-filter');
+            const allCommandsNoResults = document.getElementById('all-commands-no-results');
+
+            function renderAllCommands() {
+                const searchTerm = allCommandsSearchBar.value.toLowerCase();
+                const category = allCommandsCategoryFilter.value;
+
+                // Filter commands
+                const filteredCommands = allGitCommands.filter(cmd => {
+                    const matchesCategory = (category === 'all' || cmd.category === category);
+                    const matchesSearch = (
+                        cmd.command.toLowerCase().includes(searchTerm) ||
+                        cmd.description.toLowerCase().includes(searchTerm)
+                    );
+                    return matchesCategory && matchesSearch;
+                });
+
+                if (filteredCommands.length === 0) {
+                    allCommandsContainer.innerHTML = '';
+                    allCommandsNoResults.classList.remove('hidden');
+                    return;
+                }
+                
+                allCommandsNoResults.classList.add('hidden');
+
+                // Group commands by category
+                const commandsByCategory = {};
+                filteredCommands.forEach(cmd => {
+                    if (!commandsByCategory[cmd.category]) {
+                        commandsByCategory[cmd.category] = [];
+                    }
+                    commandsByCategory[cmd.category].push(cmd);
+                });
+
+                // Render categories
+                allCommandsContainer.innerHTML = Object.keys(commandsByCategory).map(categoryKey => {
+                    const categoryCommands = commandsByCategory[categoryKey];
+                    const categoryName = allCommandsCategoryNames[categoryKey] || categoryKey;
+                    const colorClass = allCommandsCategoryColors[categoryKey] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
+                    
+                    return `
+                    <div class="bg-white dark:bg-dark-card rounded-lg shadow-md overflow-hidden">
+                        <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 border-b border-gray-200 dark:border-gray-600">
+                            <h2 class="text-xl font-bold">${categoryName}</h2>
+                        </div>
+                        <div class="p-4 space-y-4">
+                            ${categoryCommands.map(cmd => {
+                                // Escape HTML in examples
+                                const escapedExample = cmd.example
+                                    .replace(/</g, '&lt;')
+                                    .replace(/>/g, '&gt;');
+                                
+                                const escapedSyntax = cmd.syntax
+                                    .replace(/</g, '&lt;')
+                                    .replace(/>/g, '&gt;');
+
+                                return `
+                                <details class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden" data-command="${cmd.command}">
+                                    <summary class="flex justify-between items-center p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <div class="flex items-center gap-3">
+                                            <span class="font-mono text-lg text-primary dark:text-indigo-400">${cmd.command.split(' ')[0]}</span>
+                                            <span class="font-mono text-gray-700 dark:text-gray-300">${cmd.command.split(' ').slice(1).join(' ')}</span>
+                                        </div>
+                                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </summary>
+                                    <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                                        <p class="mb-4 text-gray-700 dark:text-gray-300">${cmd.description}</p>
+                                        
+                                        <h4 class="font-semibold mb-1">Syntax:</h4>
+                                        <div class="relative group mb-4">
+                                            <pre class="bg-gray-900 text-white p-3 rounded-lg overflow-x-auto"><code class="language-bash">${escapedSyntax}</code></pre>
+                                            <button class="copy-btn absolute top-2 right-2 bg-gray-700 text-gray-300 text-xs font-medium px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity" data-copy-text="${cmd.syntax}">Copy</button>
+                                        </div>
+
+                                        <h4 class="font-semibold mb-1">Examples:</h4>
+                                        <div class="relative group mb-4">
+                                            <pre class="bg-gray-900 text-white p-3 rounded-lg overflow-x-auto"><code class="language-bash">${escapedExample}</code></pre>
+                                            <button class="copy-btn absolute top-2 right-2 bg-gray-700 text-gray-300 text-xs font-medium px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity" data-copy-text="${cmd.example}">Copy</button>
+                                        </div>
+
+                                        <h4 class="font-semibold mb-1">VS Code Usage:</h4>
+                                        <p class="mb-4 text-gray-700 dark:text-gray-300">${cmd.vsCode}</p>
+
+                                        <div class="flex flex-wrap gap-2">
+                                            <button class="simulate-btn bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-medium py-2 px-4 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition" data-command="${cmd.command}">
+                                                Simulate Command
+                                            </button>
+                                        </div>
+                                    </div>
+                                </details>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    `;
+                }).join('');
+                
+                // Add accordion toggle rotation
+                allCommandsContainer.querySelectorAll('details').forEach(detail => {
+                    detail.addEventListener('toggle', (e) => {
+                        const marker = e.target.querySelector('summary svg');
+                        if (e.target.open) {
+                            marker.classList.add('rotate-180');
+                        } else {
+                            marker.classList.remove('rotate-180');
+                        }
+                    });
+                });
+            }
+
+            // Event listeners for All Commands page
+            if (allCommandsSearchBar) {
+                allCommandsSearchBar.addEventListener('input', renderAllCommands);
+            }
+            if (allCommandsCategoryFilter) {
+                allCommandsCategoryFilter.addEventListener('change', renderAllCommands);
+            }
+
+            // Event delegation for copy and try-it buttons
+            if (allCommandsContainer) {
+                allCommandsContainer.addEventListener('click', e => {
+                    // Copy button logic
+                    if (e.target.classList.contains('copy-btn')) {
+                        const textToCopy = e.target.dataset.copyText;
+                        const clipboardHelper = document.getElementById('clipboard-helper');
+                        clipboardHelper.value = textToCopy;
+                        clipboardHelper.select();
+                        clipboardHelper.setSelectionRange(0, 99999); // For mobile
+                        
+                        try {
+                            document.execCommand('copy');
+                            e.target.textContent = 'Copied!';
+                            setTimeout(() => {
+                                e.target.textContent = 'Copy';
+                            }, 2000);
+                        } catch (err) {
+                            console.error('Failed to copy text: ', err);
+                            e.target.textContent = 'Failed!';
+                            setTimeout(() => {
+                                e.target.textContent = 'Copy';
+                            }, 2000);
+                        }
+                        
+                        window.getSelection().removeAllRanges();
+                    }
+                    
+
+                    // Simulate button logic
+                    if (e.target.classList.contains('simulate-btn')) {
+                        const command = e.target.dataset.command;
+                        // This would be implemented to show a visual simulation
+                        alert(`In a full implementation, this would show a visual simulation of the '${command}' command.`);
+                    }
+                });
+            }
+            
+            // Initial render for All Commands page
+            if (allCommandsContainer) {
+                renderAllCommands();
+            }
+            
+            // --- Alpine.js (for tabs) ---
+            // Simple polyfill for x-data, x-show, @click if Alpine isn't loaded
+            // This is a minimal implementation for this page's needs.
+            if (typeof Alpine === 'undefined') {
+                document.querySelectorAll('[x-data]').forEach(el => {
+                    const dataStr = el.getAttribute('x-data');
+                    let state = {};
+                    try {
+                        state = (new Function(`return ${dataStr}`))();
+                    } catch (e) { console.error('Error parsing x-data', e); }
+
+                    const stateProxy = new Proxy(state, {
+                        set(obj, prop, value) {
+                            obj[prop] = value;
+                            // Update UI
+                            el.querySelectorAll('[x-show]').forEach(showEl => {
+                                const condition = showEl.getAttribute('x-show');
+                                try {
+                                    if ((new Function('state', `with(state){ return ${condition} }`))(stateProxy)) {
+                                        showEl.style.display = '';
+                                    } else {
+                                        showEl.style.display = 'none';
+                                    }
+                                } catch(e) { console.error('Error evaluating x-show', e); }
+                            });
+                            // Update bindings
+                            el.querySelectorAll('[\\:class]').forEach(bindEl => {
+                                const binding = bindEl.getAttribute(':class');
+                                // Simplified: { 'class': condition }
+                                try {
+                                    const bindings = (new Function('state', `with(state){ return ${binding} }`))(stateProxy);
+                                    for(const classString in bindings) {
+                                        const individualClasses = classString.split(' '); // Split by space
+                                        if (bindings[classString]) {
+                                            individualClasses.forEach(className => {
+                                                if (className) bindEl.classList.add(className); // Add one by one
+                                            });
+                                        } else {
+                                            individualClasses.forEach(className => {
+                                                if (className) bindEl.classList.remove(className); // Remove one by one
+                                            });
+                                        }
+                                    }
+                                } catch(e) { console.error('Error evaluating :class', e); }
+                            });
+                            return true;
+                        }
+                    });
+
+                    // Initial state
+                    Object.keys(state).forEach(key => {
+                        stateProxy[key] = state[key];
+                    });
+
+                    el.querySelectorAll('[\\@click]').forEach(clickEl => {
+                        const expression = clickEl.getAttribute('@click');
+                        clickEl.addEventListener('click', () => {
+                            try {
+                                (new Function('state', `with(state){ ${expression} }`))(stateProxy);
+                            } catch(e) { console.error('Error evaluating @click', e); }
+                        });
+                    });
+                });
+            }
+
+
+            // --- CORE APP LOGIC ---
+            
+            // --- Page Navigation ---
+            const navLinks = document.querySelectorAll('.nav-link, .nav-link-cta');
+            const pages = document.querySelectorAll('.page-section');
+
+            function showPage(pageId) {
+                pages.forEach(page => {
+                    if (page.id === pageId) {
+                        page.classList.remove('hidden');
+                    } else {
+                        page.classList.add('hidden');
+                    }
+                });
+                // Update active nav link
+                navLinks.forEach(link => {
+                    if (link.dataset.page === pageId) {
+                        link.classList.add('text-primary', 'dark:text-primary');
+                        link.classList.remove('text-gray-600', 'dark:text-gray-300');
+                    } else {
+                        link.classList.remove('text-primary', 'dark:text-primary');
+                        link.classList.add('text-gray-600', 'dark:text-gray-300');
+                    }
+                });
+                
+                // If workflow page, init 3D
+                if (pageId === 'workflow' && !window.threeScene) {
+                    init3DGraph();
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = e.target.dataset.page || e.target.closest('[data-page]').dataset.page;
+                    window.location.hash = `#${pageId}`;
+                    showPage(pageId);
+                });
+            });
+            
+            // Handle initial page load from hash
+            const initialPage = window.location.hash.substring(1) || 'home';
+            showPage(initialPage);
+
+            
+            // --- Dark Mode Toggle ---
+            const toggleBtn = document.getElementById('dark-mode-toggle');
+            const htmlEl = document.documentElement;
+
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                htmlEl.classList.add('dark');
+            } else {
+                htmlEl.classList.remove('dark');
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                if (htmlEl.classList.contains('dark')) {
+                    htmlEl.classList.remove('dark');
+                    localStorage.theme = 'light';
+                } else {
+                    htmlEl.classList.add('dark');
+                    localStorage.theme = 'dark';
+                }
+            });
+
+
+            // --- Command Page Logic ---
+            const commandListContainer = document.getElementById('command-list');
+            const searchBar = document.getElementById('search-bar');
+            const categoryFilter = document.getElementById('category-filter');
+            const noResults = document.getElementById('no-results');
+            
+            const categoryColors = {
+                'setup': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+                'snapshotting': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+                'branching': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
+                'remote': 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300',
+                'undoing': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+                'history': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+                'advanced': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+            };
+            
+            const categoryNames = {
+                'setup': 'Setup & Config',
+                'snapshotting': 'Snapshotting',
+                'branching': 'Branching & Merging',
+                'remote': 'Remote',
+                'undoing': 'Undoing Changes',
+                'history': 'History & Inspection',
+                'advanced': 'Advanced'
+            };
+
+            function renderCommands() {
+                const searchTerm = searchBar.value.toLowerCase();
+                const category = categoryFilter.value;
+
+                const filteredCommands = commands.filter(cmd => {
+                    const matchesCategory = (category === 'all' || cmd.category === category);
+                    const matchesSearch = (
+                        cmd.command.toLowerCase().includes(searchTerm) ||
+                        cmd.description.toLowerCase().includes(searchTerm)
+                    );
+                    return matchesCategory && matchesSearch;
+                });
+
+                if (filteredCommands.length === 0) {
+                    commandListContainer.innerHTML = '';
+                    noResults.classList.remove('hidden');
+                    return;
+                }
+                
+                noResults.classList.add('hidden');
+                
+                commandListContainer.innerHTML = filteredCommands.map(cmd => {
+                    const colorClass = categoryColors[cmd.category] || categoryColors['advanced'];
+                    const categoryName = categoryNames[cmd.category] || 'Advanced';
+                    
+                    // Escape HTML in examples
+                    const escapedExample = cmd.example
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+                    
+                    const escapedSyntax = cmd.syntax
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+
+                    return `
+                    <details class="bg-white dark:bg-dark-card shadow-md rounded-lg overflow-hidden" data-command="${cmd.command}">
+                        <summary class="flex flex-wrap justify-between items-center p-3 sm:p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 gap-2">
+                            <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                                <span class="font-mono text-base sm:text-lg text-primary dark:text-indigo-400">${cmd.command.split(' ')[0]}</span>
+                                <span class="font-mono text-sm text-gray-700 dark:text-gray-300">${cmd.command.split(' ').slice(1).join(' ')}</span>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-1 sm:gap-2">
+                                <span class="text-xs font-medium px-2 py-0.5 sm:px-2.5 sm:py-0.5 rounded ${colorClass}">${categoryName}</span>
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </summary>
+                        <div class="p-3 sm:p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                            <p class="mb-3 sm:mb-4 text-sm sm:text-base text-gray-700 dark:text-gray-300">${cmd.description}</p>
+                            
+                            <h4 class="font-semibold mb-1 text-sm sm:text-base">Syntax:</h4>
+                            <div class="relative group mb-3 sm:mb-4">
+                                <pre class="bg-gray-900 text-white p-2 sm:p-3 rounded-lg overflow-x-auto text-xs sm:text-sm"><code class="language-bash">${escapedSyntax}</code></pre>
+                                <button class="copy-btn absolute top-1 sm:top-2 right-1 sm:right-2 bg-gray-700 text-gray-300 text-xs font-medium px-1.5 py-0.5 sm:px-2 sm:py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Copy</button>
+                            </div>
+
+                            <h4 class="font-semibold mb-1 text-sm sm:text-base">Example:</h4>
+                            <div class="relative group mb-3 sm:mb-4">
+                                <pre class="bg-gray-900 text-white p-2 sm:p-3 rounded-lg overflow-x-auto text-xs sm:text-sm"><code class="language-bash">${escapedExample}</code></pre>
+                                <button class="copy-btn absolute top-1 sm:top-2 right-1 sm:right-2 bg-gray-700 text-gray-300 text-xs font-medium px-1.5 py-0.5 sm:px-2 sm:py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Copy</button>
+                            </div>
+
+
+                        </div>
+                    </details>
+                    `;
+                }).join('');
+                
+                // Add accordion toggle rotation
+                commandListContainer.querySelectorAll('details').forEach(detail => {
+                    detail.addEventListener('toggle', (e) => {
+                        const marker = e.target.querySelector('summary svg');
+                        if (e.target.open) {
+                            marker.classList.add('rotate-180');
+                        } else {
+                            marker.classList.remove('rotate-180');
+                        }
+                    });
+                });
+            }
+
+            // --- Event Listeners for Command Page ---
+            if (searchBar) {
+                searchBar.addEventListener('input', renderCommands);
+            }
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', renderCommands);
+            }
+
+            // Event delegation for copy and try-it buttons
+            if (commandListContainer) {
+                commandListContainer.addEventListener('click', e => {
+                    // Copy button logic
+                    if (e.target.classList.contains('copy-btn')) {
+                        const textToCopy = e.target.dataset.copyText;
+                        const clipboardHelper = document.getElementById('clipboard-helper');
+                        clipboardHelper.value = textToCopy;
+                        clipboardHelper.select();
+                        clipboardHelper.setSelectionRange(0, 99999); // For mobile
+                        
+                        try {
+                            document.execCommand('copy');
+                            e.target.textContent = 'Copied!';
+                            setTimeout(() => {
+                                e.target.textContent = 'Copy';
+                            }, 2000);
+                        } catch (err) {
+                            console.error('Failed to copy text: ', err);
+                            e.target.textContent = 'Failed!';
+                            setTimeout(() => {
+                                e.target.textContent = 'Copy';
+                            }, 2000);
+                        }
+                        
+                        window.getSelection().removeAllRanges();
+                    }
+                    
+
+                });
+            }
+            
+            // Initial render
+            if (commandListContainer) {
+                renderCommands();
+            }
+            
+            // Initial render for All Commands page
+            if (allCommandsContainer) {
+                renderAllCommands();
+            }
+        }); // End DOMContentLoaded
+            
+            
+
+            // --- Quiz Logic ---
+            const quizContent = document.getElementById('quiz-content');
+            const quizResult = document.getElementById('quiz-result');
+            const quizNextBtn = document.getElementById('quiz-next-btn');
+            let currentQuestionIndex = 0;
+            let score = 0;
+
+            function loadQuizQuestion() {
+                quizResult.textContent = '';
+                quizNextBtn.classList.add('hidden');
+                
+                if (currentQuestionIndex >= quizData.length) {
+                    // End of quiz
+                    quizContent.innerHTML = `<h3 class="text-xl font-bold">Quiz Complete!</h3>
+                                         <p class="my-4">You scored ${score} out of ${quizData.length}!</p>`;
+                    quizNextBtn.textContent = 'Restart Quiz';
+                    quizNextBtn.classList.remove('hidden');
+                    currentQuestionIndex = -1; // Flag for restart
+                    return;
+                }
+                
+                if (currentQuestionIndex === -1) {
+                    // Restart
+                    currentQuestionIndex = 0;
+                    score = 0;
+                    quizNextBtn.textContent = 'Next Question';
+                }
+
+                const question = quizData[currentQuestionIndex];
+                quizContent.innerHTML = `
+                    <h3 class="text-lg font-semibold mb-4">${currentQuestionIndex + 1}. ${question.question}</h3>
+                    <div class="space-y-2">
+                        ${question.answers.map(answer => `
+                            <button class="quiz-option block w-full text-left p-3 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700" data-answer="${answer}">
+                                ${answer}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            if (quizContent) {
+                quizContent.addEventListener('click', e => {
+                    if (e.target.classList.contains('quiz-option')) {
+                        // Disable all buttons
+                        quizContent.querySelectorAll('.quiz-option').forEach(btn => btn.disabled = true);
+                        
+                        const selectedAnswer = e.target.dataset.answer;
+                        const correctAnswer = quizData[currentQuestionIndex].correct;
+
+                        if (selectedAnswer === correctAnswer) {
+                            score++;
+                            e.target.classList.add('bg-green-200', 'dark:bg-green-800', 'border-green-500');
+                            quizResult.textContent = 'Correct!';
+                            quizResult.className = 'mt-4 text-lg font-medium text-green-600 dark:text-green-400';
+                        } else {
+                            e.target.classList.add('bg-red-200', 'dark:bg-red-800', 'border-red-500');
+                            quizResult.textContent = `Incorrect. The correct answer is: ${correctAnswer}`;
+                            quizResult.className = 'mt-4 text-lg font-medium text-red-600 dark:text-red-400';
+                            
+                            // Highlight correct answer
+                            quizContent.querySelector(`[data-answer="${correctAnswer}"]`).classList.add('bg-green-200', 'dark:bg-green-800', 'border-green-500');
+                        }
+                        
+                        quizNextBtn.classList.remove('hidden');
+                    }
+                });
+
+                quizNextBtn.addEventListener('click', () => {
+                    currentQuestionIndex++;
+                    loadQuizQuestion();
+                });
+                
+                loadQuizQuestion();
+            }
+
+
+            // --- 3D Workflow Visualization (Three.js) ---
+            let scene, camera, renderer, objects = [];
+            let branches = {};
+            let activeBranch = 'main';
+            let commitCounter = 0;
+            const commitSpacing = 2;
+            const branchSpacing = 3;
+            const yOffset = -5;
+
+            function init3DGraph() {
+                const canvas = document.getElementById('git-graph-3d');
+                if (!canvas) return;
+
+                // Scene
+                scene = new THREE.Scene();
+                scene.background = new THREE.Color(0x111827); // dark-bg
+                
+                // Camera
+                camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+                camera.position.set(0, 5, 15);
+                camera.lookAt(0, yOffset, 0);
+
+                // Renderer
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+                renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+                
+                // Lights
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+                scene.add(ambientLight);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(5, 10, 7.5);
+                scene.add(directionalLight);
+
+                // Initial setup
+                resetGraph();
+                
+                // Animate loop
+                function animate() {
+                    requestAnimationFrame(animate);
+                    // Simple rotation
+                    scene.rotation.y += 0.002;
+                    renderer.render(scene, camera);
+                }
+                animate();
+
+                // Handle resize
+                window.addEventListener('resize', () => {
+                    if (canvas.clientWidth > 0 && canvas.clientHeight > 0) {
+                        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+                    }
+                });
+                
+                // Event Listeners
+                document.getElementById('btn-add-commit').onclick = addCommit;
+                document.getElementById('btn-create-branch').onclick = createBranch;
+                document.getElementById('btn-merge-branch').onclick = mergeBranch;
+                document.getElementById('btn-reset-graph').onclick = resetGraph;
+                
+                window.threeScene = true;
+            }
+
+            function createCommit(x, z, color = 0x4f46e5) {
+                const geometry = new THREE.SphereGeometry(0.3, 16, 16);
+                const material = new THREE.MeshLambertMaterial({ color: color });
+                const commit = new THREE.Mesh(geometry, material);
+                commit.position.set(x, yOffset, z);
+                scene.add(commit);
+                objects.push(commit);
+                return commit;
+            }
+
+            function createLine(startVec, endVec, color = 0x4f46e5) {
+                const points = [startVec, endVec];
+                const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                const material = new THREE.LineBasicMaterial({ color: color, linewidth: 2 });
+                const line = new THREE.Line(geometry, material);
+                scene.add(line);
+                objects.push(line);
+                return line;
+            }
+
+            function resetGraph() {
+                objects.forEach(obj => scene.remove(obj));
+                objects = [];
+                commitCounter = 0;
+                
+                branches = {
+                    'main': {
+                        color: 0x4f46e5, // primary
+                        x: 0,
+                        commits: [],
+                        lastCommitPos: new THREE.Vector3(0, yOffset, 0)
+                    }
+                };
+                
+                // Initial commit
+                const initialCommit = createCommit(0, 0, branches['main'].color);
+                branches['main'].commits.push(initialCommit);
+                branches['main'].lastCommitPos = initialCommit.position;
+                
+                activeBranch = 'main';
+                updateActiveBranchLabel();
+            }
+
+            function addCommit() {
+                const branch = branches[activeBranch];
+                if (!branch) return;
+
+                const newZ = branch.lastCommitPos.z - commitSpacing;
+                const newPos = new THREE.Vector3(branch.x, yOffset, newZ);
+                
+                const newCommit = createCommit(branch.x, newZ, branch.color);
+                createLine(branch.lastCommitPos, newPos, branch.color);
+                
+                branch.commits.push(newCommit);
+                branch.lastCommitPos = newPos;
+                
+                gsap.from(newCommit.scale, { x: 0, y: 0, z: 0, duration: 0.5, ease: 'back.out(1.7)' });
+            }
+            
+            function createBranch() {
+                const newBranchName = `feature/${Object.keys(branches).length}`;
+                const newBranchColor = [0xec4899, 0x10b981, 0xf59e0b][(Object.keys(branches).length - 1) % 3];
+                const newBranchX = (Object.keys(branches).length) * branchSpacing;
+                
+                const parentBranch = branches[activeBranch];
+                const startPos = parentBranch.lastCommitPos;
+                
+                branches[newBranchName] = {
+                    color: newBranchColor,
+                    x: newBranchX,
+                    commits: [],
+                    lastCommitPos: new THREE.Vector3(newBranchX, yOffset, startPos.z),
+                    parentPos: startPos
+                };
+                
+                // Create diverging line and first commit
+                const newCommit = createCommit(newBranchX, startPos.z, newBranchColor);
+                createLine(startPos, newCommit.position, newBranchColor);
+                
+                branches[newBranchName].commits.push(newCommit);
+                
+                activeBranch = newBranchName;
+                updateActiveBranchLabel();
+                
+                gsap.from(newCommit.scale, { x: 0, y: 0, z: 0, duration: 0.5, ease: 'back.out(1.7)' });
+            }
+            
+            function mergeBranch() {
+                if (activeBranch === 'main') return; // Can't merge main into itself
+                
+                const branchToMerge = branches[activeBranch];
+                const mainBranch = branches['main'];
+                
+                const startPos = branchToMerge.lastCommitPos;
+                const endPos = new THREE.Vector3(mainBranch.x, yOffset, startPos.z - commitSpacing);
+                
+                // Create merge commit on main
+                const mergeCommit = createCommit(endPos.x, endPos.z, mainBranch.color);
+                
+                // Line from feature branch to merge commit
+                createLine(startPos, mergeCommit.position, branchToMerge.color);
+                // Line from main branch to merge commit
+                createLine(mainBranch.lastCommitPos, mergeCommit.position, mainBranch.color);
+                
+                mainBranch.commits.push(mergeCommit);
+                mainBranch.lastCommitPos = mergeCommit.position;
+                
+                // Switch back to main
+                activeBranch = 'main';
+                updateActiveBranchLabel();
+                
+                gsap.from(mergeCommit.scale, { x: 0, y: 0, z: 0, duration: 0.5, ease: 'back.out(1.7)' });
+            }
+            
+            function updateActiveBranchLabel() {
+                const label = document.getElementById('active-branch-label');
+                label.textContent = activeBranch;
+                const color = branches[activeBranch] ? branches[activeBranch].color.toString(16) : '4f46e5';
+                label.style.color = `#${color.padStart(6, '0')}`;
+            }
+    </script>
+
+</body>
+</html>
+
