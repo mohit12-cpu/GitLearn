@@ -142,6 +142,11 @@
                             <li>Verify installation by opening a new terminal (Git Bash or Command Prompt) and typing:</li>
                         </ol>
                         <pre class="bg-gray-800 text-white p-2 sm:p-3 rounded-lg text-xs sm:text-sm"><code>git --version</code></pre>
+                        
+                        <p class="font-bold text-sm sm:text-base mt-4">Alternative Method (using winget):</p>
+                        <p class="text-sm sm:text-base">If you have the winget package manager installed, you can install Git with this command:</p>
+                        <pre class="bg-gray-800 text-white p-2 sm:p-3 rounded-lg text-xs sm:text-sm"><code>winget install --id Git.Git -e --source winget</code></pre>
+                        <p class="text-sm sm:text-base">Install winget tool if you don't already have it, then type this command in Command Prompt or PowerShell.</p>
                     </div>
                     
                     <div x-show="tab === 'macos'" class="space-y-2 sm:space-y-3" style="display: none;">
@@ -1098,6 +1103,19 @@ git commit -m "Changes from VS Code terminal"</code></pre>
             }
         ];
 
+        // Function to shuffle array using Fisher-Yates algorithm
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Create a shuffled version of quizData for this session
+        const shuffledQuizData = shuffleArray(quizData);
+
         
         // --- Wait for DOM to load ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -1590,10 +1608,10 @@ git commit -m "Changes from VS Code terminal"</code></pre>
                 quizResult.textContent = '';
                 quizNextBtn.classList.add('hidden');
                 
-                if (currentQuestionIndex >= quizData.length) {
+                if (currentQuestionIndex >= shuffledQuizData.length) {
                     // End of quiz
                     quizContent.innerHTML = `<h3 class="text-xl font-bold">Quiz Complete!</h3>
-                                         <p class="my-4">You scored ${score} out of ${quizData.length}!</p>`;
+                                         <p class="my-4">You scored ${score} out of ${shuffledQuizData.length}!</p>`;
                     quizNextBtn.textContent = 'Restart Quiz';
                     quizNextBtn.classList.remove('hidden');
                     currentQuestionIndex = -1; // Flag for restart
@@ -1607,7 +1625,7 @@ git commit -m "Changes from VS Code terminal"</code></pre>
                     quizNextBtn.textContent = 'Next Question';
                 }
 
-                const question = quizData[currentQuestionIndex];
+                const question = shuffledQuizData[currentQuestionIndex];
                 quizContent.innerHTML = `
                     <h3 class="text-lg font-semibold mb-4">${currentQuestionIndex + 1}. ${question.question}</h3>
                     <div class="space-y-2">
@@ -1627,7 +1645,7 @@ git commit -m "Changes from VS Code terminal"</code></pre>
                         quizContent.querySelectorAll('.quiz-option').forEach(btn => btn.disabled = true);
                         
                         const selectedAnswer = e.target.dataset.answer;
-                        const correctAnswer = quizData[currentQuestionIndex].correct;
+                        const correctAnswer = shuffledQuizData[currentQuestionIndex].correct;
 
                         if (selectedAnswer === correctAnswer) {
                             score++;
