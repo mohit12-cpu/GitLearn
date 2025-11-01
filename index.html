@@ -47,6 +47,7 @@
                     <a href="#all-commands" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium" data-page="all-commands">All Commands</a>
                     <a href="#ides" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium" data-page="ides">IDEs</a>
                     <a href="#mastery" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium" data-page="mastery">Mastery</a>
+                    <a href="#terminal" class="nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium" data-page="terminal">Git Terminal</a>
                 </div>
                 
                 <!-- Dark Mode Toggle -->
@@ -78,6 +79,7 @@
                 <a href="#all-commands" class="nav-link mobile-nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-page="all-commands">All Commands</a>
                 <a href="#ides" class="nav-link mobile-nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-page="ides">IDEs</a>
                 <a href="#mastery" class="nav-link mobile-nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-page="mastery">Mastery</a>
+                <a href="#terminal" class="nav-link mobile-nav-link text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary block px-3 py-2 rounded-md text-base font-medium" data-page="terminal">Git Terminal</a>
             </div>
         </nav>
     </header>
@@ -143,7 +145,7 @@
                         </ol>
                         <pre class="bg-gray-800 text-white p-2 sm:p-3 rounded-lg text-xs sm:text-sm"><code>git --version</code></pre>
                         
-                        <p class="font-bold text-sm sm:text-base mt-4">Alternative Method (using winget):</p>
+                        <p class="font-bold text-sm sm:text-base mt-4">5.Alternative Method (using winget):</p>
                         <p class="text-sm sm:text-base">If you have the winget package manager installed, you can install Git with this command:</p>
                         <pre class="bg-gray-800 text-white p-2 sm:p-3 rounded-lg text-xs sm:text-sm"><code>winget install --id Git.Git -e --source winget</code></pre>
                         <p class="text-sm sm:text-base">Install winget tool if you don't already have it, then type this command in Command Prompt or PowerShell.</p>
@@ -463,6 +465,64 @@ git commit -m "Changes from VS Code terminal"</code></pre>
             </div>
         </section>
 
+        <!-- Page: Git Master Terminal -->
+        <section id="terminal" class="page-section hidden">
+            <h1 class="text-3xl font-bold mb-6 text-center">Git Master Terminal</h1>
+            <p class="text-lg text-center text-gray-700 dark:text-gray-300 mb-8">
+                Practice Git commands in a simulated terminal environment
+            </p>
+
+            <div class="bg-gray-900 rounded-lg shadow-xl overflow-hidden">
+                <!-- Terminal Header -->
+                <div class="bg-gray-800 px-4 py-2 flex items-center">
+                    <div class="flex space-x-2">
+                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                    </div>
+                    <div class="text-gray-300 text-sm ml-4 flex-grow">GitMasterTerminal</div>
+                </div>
+
+                <!-- Terminal Content -->
+                <div class="p-4 font-mono text-sm">
+                    <!-- Output Area -->
+                    <div id="terminal-output" class="text-green-400 min-h-[300px] max-h-[400px] overflow-y-auto mb-4">
+                        <div class="mb-2">$ Welcome to Git Master Terminal!</div>
+                        <div class="mb-2">$ Type 'help' to see available commands</div>
+                        <div class="mb-2">$ Type 'mission' to start a learning mission</div>
+                        <div class="mb-2">$ </div>
+                    </div>
+
+                    <!-- Input Area -->
+                    <div class="flex items-center">
+                        <span class="text-green-400 mr-2">$</span>
+                        <input type="text" id="terminal-input" class="bg-transparent border-none outline-none text-green-400 flex-grow" autofocus>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Missions Panel -->
+            <div class="mt-8 bg-white dark:bg-dark-card p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold mb-4">Learning Missions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                        <h3 class="font-bold text-lg mb-2">Mission 1: Initialize Repository</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Create a new Git repository and make your first commit</p>
+                        <button class="bg-primary text-white px-3 py-1 rounded text-sm mission-btn" data-mission="1">Start Mission</button>
+                    </div>
+                    <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                        <h3 class="font-bold text-lg mb-2">Mission 2: Branching</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Create and merge a feature branch</p>
+                        <button class="bg-primary text-white px-3 py-1 rounded text-sm mission-btn" data-mission="2">Start Mission</button>
+                    </div>
+                    <div class="border border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                        <h3 class="font-bold text-lg mb-2">Mission 3: Collaboration</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Simulate working with remote repositories</p>
+                        <button class="bg-primary text-white px-3 py-1 rounded text-sm mission-btn" data-mission="3">Start Mission</button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
@@ -1857,7 +1917,48 @@ git commit -m "Changes from VS Code terminal"</code></pre>
                 const color = branches[activeBranch] ? branches[activeBranch].color.toString(16) : '4f46e5';
                 label.style.color = `#${color.padStart(6, '0')}`;
             }
+
+            // --- Git Master Terminal Logic ---
+            // Initialize terminal elements when DOM is loaded
+            document.addEventListener('DOMContentLoaded', function() {
+                terminalInput = document.getElementById('terminal-input');
+                terminalOutput = document.getElementById('terminal-output');
+                
+                // Focus terminal when section is shown
+                const terminalSection = document.getElementById('terminal');
+                if (terminalSection) {
+                    const observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            if (!mutation.target.classList.contains('hidden')) {
+                                if (terminalInput) terminalInput.focus();
+                            }
+                        });
+                    });
+                    observer.observe(terminalSection, { attributes: true, attributeFilter: ['class'] });
+                }
+            });
+            
     </script>
+                staged: {},
+                commits: [],
+                branches: ['main'],
+                currentBranch: 'main',
+                remote: null,
+                history: []
+            };
+
+            // Mission states
+            let currentMission = null;
+            let missionProgress = 0;
+
+            // Command history
+            let commandHistory = [];
+            let historyIndex = -1;
+
+    </script>
+
+    <!-- Git Master Terminal Functionality -->
+    <script src="terminal.js"></script>
 
 </body>
 </html>

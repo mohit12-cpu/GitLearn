@@ -16,6 +16,7 @@ GitLearn is a comprehensive, single-file web application designed to teach Git v
 - **Comprehensive Git Command Reference** - Detailed documentation for over 50 Git commands with practical examples
 - **IDE Integration Guides** - Step-by-step instructions for Git integration in VS Code and JetBrains IDEs
 - **Git Mastery Assessment** - Interactive quiz system to evaluate understanding of Git concepts
+- **Git Master Terminal** - Interactive in-browser terminal to practice Git commands
 - **Adaptive Interface** - Responsive design with dark mode support for optimal viewing experience
 - **Self-Contained Architecture** - Entire application delivered through a single HTML file
 - **Offline Accessibility** - Downloadable PDF reference guide for offline consultation
@@ -36,6 +37,11 @@ Access a comprehensive reference of Git commands with detailed explanations and 
 ![VS Code Integration](https://placehold.co/600x300/1f2937/d1d5db?text=VS+Code+Git+Integration)
 
 Learn how to use Git within popular IDEs like Visual Studio Code and JetBrains products.
+
+### Git Master Terminal
+![Git Terminal](https://placehold.co/600x300/1f2937/d1d5db?text=Git+Master+Terminal)
+
+Practice Git commands in an interactive terminal environment with simulated repository operations.
 
 ## Getting Started
 
@@ -72,6 +78,39 @@ The application will load immediately with no additional configuration required.
 | **All Commands** | Complete reference documentation with detailed explanations |
 | **IDEs** | Comprehensive guides for Git integration in popular IDEs |
 | **Mastery** | Learning progression path and competency assessment tools |
+| **Git Terminal** | Interactive terminal for practicing Git commands |
+
+## Git Master Terminal
+
+The Git Master Terminal is an interactive in-browser terminal that simulates real Git operations. Users can practice Git commands in a safe environment without affecting their actual repositories.
+
+### Features
+
+- **Realistic Terminal Interface** - Dark theme with monospace font for authentic developer experience
+- **Command Simulation** - All key Git commands with realistic responses
+- **Learning Missions** - Guided tutorials for common Git workflows
+- **Command History** - Navigate through previous commands with up/down arrow keys
+- **Virtual Repository** - Simulated repository state management
+
+### Supported Commands
+
+- `git init` - Initialize a new repository
+- `git status` - Show working tree status
+- `git add` - Add file contents to the index
+- `git commit` - Record changes to the repository
+- `git log` - Show commit logs
+- `git branch` - List, create, or delete branches
+- `git checkout` - Switch branches or restore working tree files
+- `git merge` - Join two or more development histories
+- `help` - Show available commands
+- `mission` - Start a learning mission
+- `clear` - Clear the terminal screen
+
+### Learning Missions
+
+1. **Initialize Repository** - Create a new Git repository and make your first commit
+2. **Branching** - Create and merge a feature branch
+3. **Collaboration** - Simulate working with remote repositories (coming soon)
 
 ## Technical Implementation
 
@@ -131,7 +170,7 @@ Git command content is maintained in JavaScript arrays within `index.html`:
 - `collaboration` - Collaborative development tools
 - `plumbing` - Low-level Git operations
 
-### Quiz Development
+### Adding Quiz Questions
 
 Quiz questions are managed in the `const quizData = [...]` array with the following structure:
 
@@ -140,6 +179,25 @@ Quiz questions are managed in the `const quizData = [...]` array with the follow
     question: "Question text",
     answers: ["Option A", "Option B", "Option C", "Option D"],
     correct: "Option A"
+}
+```
+
+### Extending the Git Master Terminal
+
+To add new commands to the Git Master Terminal:
+
+1. Locate the `commands` object in the terminal logic section
+2. Add a new command object with the following structure:
+
+```javascript
+commandName: {
+    description: "Brief description of the command",
+    usage: "commandName [options]",
+    execute: function(args) {
+        // Implementation of the command logic
+        // Use printOutput() to display results
+        // Use addToHistory() to add commands to history
+    }
 }
 ```
 
