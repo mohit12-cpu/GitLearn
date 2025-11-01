@@ -1436,7 +1436,8 @@ git commit -m "Changes from VS Code terminal"</code></pre>
             const navLinks = document.querySelectorAll('.nav-link, .nav-link-cta');
             const pages = document.querySelectorAll('.page-section');
 
-            function showPage(pageId) {
+            // Make showPage globally accessible
+            window.showPage = function(pageId) {
                 pages.forEach(page => {
                     if (page.id === pageId) {
                         page.classList.remove('hidden');
@@ -1919,32 +1920,9 @@ git commit -m "Changes from VS Code terminal"</code></pre>
             }
 
             // --- Git Master Terminal Logic ---
-            // Initialize terminal elements when DOM is loaded
-            document.addEventListener('DOMContentLoaded', function() {
-                terminalInput = document.getElementById('terminal-input');
-                terminalOutput = document.getElementById('terminal-output');
-                
-                // Focus terminal when section is shown
-                const terminalSection = document.getElementById('terminal');
-                if (terminalSection) {
-                    const observer = new MutationObserver(function(mutations) {
-                        mutations.forEach(function(mutation) {
-                            if (!mutation.target.classList.contains('hidden')) {
-                                if (terminalInput) terminalInput.focus();
-                            }
-                        });
-                    });
-                    observer.observe(terminalSection, { attributes: true, attributeFilter: ['class'] });
-                }
-            });
+            // Terminal elements are initialized in terminal.js
             
-            // Mission states
-            let currentMission = null;
-            let missionProgress = 0;
-
-            // Command history
-            let commandHistory = [];
-            let historyIndex = -1;
+            // Mission states and command history are defined in terminal.js
     </script>
 
     <!-- Git Master Terminal Functionality -->

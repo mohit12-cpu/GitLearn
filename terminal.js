@@ -86,6 +86,12 @@ const terminalCommands = {
             } else {
                 repoState.initialized = true;
                 printOutput("Initialized empty Git repository.");
+                
+                // Check mission progress for Mission 1
+                if (currentMission === 1 && missionProgress === 0) {
+                    missionProgress = 1;
+                    printOutput("✅ Step 1 completed! You've initialized a new Git repository.");
+                }
             }
             addToHistory("git init " + args.join(' '));
         }
@@ -135,6 +141,12 @@ const terminalCommands = {
                     delete repoState.files[f];
                 });
                 printOutput("All files added to staging area.");
+                
+                // Check mission progress for Mission 1
+                if (currentMission === 1 && missionProgress === 1) {
+                    missionProgress = 2;
+                    printOutput("✅ Step 3 completed! You've added files to the staging area.");
+                }
             } else {
                 if (repoState.files[file]) {
                     repoState.staged[file] = repoState.files[file];
@@ -241,10 +253,13 @@ const terminalCommands = {
             addToHistory("git commit -m \"" + message + "\"");
             
             // Check mission progress
-            if (currentMission === 1 && missionProgress === 1) {
-                missionProgress = 2;
+            if (currentMission === 1 && missionProgress === 2) {
+                missionProgress = 3;
                 printOutput("✅ Mission 1 completed! You've successfully initialized a repository and made your first commit.");
                 currentMission = null;
+            } else if (currentMission === 2 && missionProgress === 3) {
+                missionProgress = 4;
+                printOutput("✅ Step 3 completed! You've committed changes to the feature branch.");
             }
         }
     },
@@ -276,7 +291,7 @@ const terminalCommands = {
                     repoState.branches.push(branchName);
                     printOutput("Created branch " + branchName);
                     
-                    // Check mission progress
+                    // Check mission progress for Mission 2
                     if (currentMission === 2 && missionProgress === 0) {
                         missionProgress = 1;
                         printOutput("✅ Step 1 completed! You've created a new branch.");
@@ -305,10 +320,24 @@ const terminalCommands = {
                 repoState.currentBranch = branchName;
                 printOutput("Switched to branch '" + branchName + "'");
                 
-                // Check mission progress
-                if (currentMission === 2 && missionProgress === 2) {
-                    missionProgress = 3;
-                    printOutput("✅ Step 3 completed! You've switched back to the main branch.");
+                // Check mission progress for Mission 2
+                if (currentMission === 2) {
+                    if (branchName === 'feature-login' && missionProgress === 1) {
+                        missionProgress = 2;
+                        printOutput("✅ Step 2 completed! You've switched to the feature branch.");
+                        // Simulate making changes
+                        repoState.files['login.html'] = '<html>Login Page</html>';
+                        printOutput("📝 Created login.html file");
+                    } else if (branchName === 'main' && missionProgress === 4) {
+                        missionProgress = 5;
+                        printOutput("✅ Step 4 completed! You've switched back to the main branch.");
+                    }
+                }
+                
+                // Check mission progress for Mission 3
+                if (currentMission === 3 && missionProgress === 3) {
+                    missionProgress = 4;
+                    printOutput("✅ Step 4 completed! You've switched back to the main branch.");
                 }
             } else {
                 printOutput("error: pathspec '" + branchName + "' did not match any file(s) known to git");
@@ -340,11 +369,17 @@ const terminalCommands = {
                     printOutput(" file.txt | 1 +");
                     printOutput(" 1 file changed, 1 insertion(+)");
                     
-                    // Check mission progress
-                    if (currentMission === 2 && missionProgress === 3) {
-                        missionProgress = 4;
-                        printOutput("✅ Mission 2 completed! You've successfully merged a branch.");
+                    // Check mission progress for Mission 2
+                    if (currentMission === 2 && missionProgress === 5) {
+                        missionProgress = 6;
+                        printOutput("✅ Mission 2 completed! You've successfully created and merged a feature branch.");
                         currentMission = null;
+                    }
+                    
+                    // Check mission progress for Mission 3
+                    if (currentMission === 3 && missionProgress === 2) {
+                        missionProgress = 3;
+                        printOutput("✅ Step 3 completed! You've merged changes from the remote repository.");
                     }
                 }
             } else {
@@ -357,28 +392,31 @@ const terminalCommands = {
     // Remote
     "git remote": {
         description: "Manage set of tracked repositories",
-        usage: "git remote [-v | --verbose] [-q | --quiet] [--cached] [--[no-]tags] [--mirror=<fetch|push>] [-f | --fetch] [--prune] [-n | --no-tags] [--refmap=<refspec>] [--force] [--[no-]progress] [--verbose] [<command> [<name> [<url>]]]",
+        usage: "git remote add <name> <url>",
         execute: function(args) {
             if (!repoState.initialized) {
                 printOutput("fatal: not a git repository (or any of the parent directories): .git");
                 return;
             }
             
-            if (args.length === 0) {
-                if (repoState.remote) {
-                    printOutput(repoState.remote.name);
-                }
-            } else if (args[0] === "-v") {
-                if (repoState.remote) {
-                    printOutput(repoState.remote.name + " " + repoState.remote.url + " (fetch)");
-                    printOutput(repoState.remote.name + " " + repoState.remote.url + " (push)");
-                }
-            } else if (args[0] === "add" && args[1] && args[2]) {
+            if (args[0] === "add" && args[1] && args[2]) {
                 repoState.remote = {
                     name: args[1],
                     url: args[2]
                 };
-                printOutput("Added remote " + args[1]);
+                printOutput("Added remote " + args[1] + " at " + args[2]);
+                
+                // Check mission progress for Mission 3
+                if (currentMission === 3 && missionProgress === 0) {
+                    missionProgress = 1;
+                    printOutput("✅ Step 1 completed! You've added a remote repository.");
+                }
+            } else if (args.length === 0) {
+                if (repoState.remote) {
+                    printOutput(repoState.remote.name);
+                }
+            } else {
+                printOutput("usage: git remote add <name> <url>");
             }
             addToHistory("git remote " + args.join(' '));
         }
@@ -398,6 +436,12 @@ const terminalCommands = {
                 printOutput("Unpacking objects: 100% (10/10), done.");
                 printOutput("From " + repoState.remote.url);
                 printOutput(" * [new branch]      feature-branch -> origin/feature-branch");
+                
+                // Check mission progress for Mission 3
+                if (currentMission === 3 && missionProgress === 1) {
+                    missionProgress = 2;
+                    printOutput("✅ Step 2 completed! You've fetched updates from the remote repository.");
+                }
             } else {
                 printOutput("fatal: No remote repository specified.");
             }
@@ -423,6 +467,13 @@ const terminalCommands = {
                 printOutput("Fast-forward");
                 printOutput(" file.txt | 1 +");
                 printOutput(" 1 file changed, 1 insertion(+)");
+                
+                // Check mission progress for Mission 3
+                if (currentMission === 3 && missionProgress === 4) {
+                    missionProgress = 5;
+                    printOutput("✅ Mission 3 completed! You've successfully collaborated with a remote repository.");
+                    currentMission = null;
+                }
             } else {
                 printOutput("fatal: No remote repository specified.");
             }
@@ -446,6 +497,12 @@ const terminalCommands = {
                 printOutput("Total 10 (delta 2), reused 0 (delta 0)");
                 printOutput("To " + repoState.remote.url);
                 printOutput("   abc1234..def5678  main -> main");
+                
+                // Check mission progress for Mission 3
+                if (currentMission === 3 && missionProgress === 1) {
+                    missionProgress = 2;
+                    printOutput("✅ Step 2 completed! You've pushed your changes to the remote repository.");
+                }
             } else {
                 printOutput("fatal: No remote repository specified.");
             }
@@ -617,6 +674,12 @@ const terminalCommands = {
             } else {
                 repoState.initialized = true;
                 printOutput("Initialized empty Git repository.");
+                
+                // Check mission progress for Mission 1
+                if (currentMission === 1 && missionProgress === 0) {
+                    missionProgress = 1;
+                    printOutput("✅ Step 1 completed! You've initialized a new Git repository.");
+                }
             }
             addToHistory("init");
         }
@@ -674,6 +737,12 @@ const terminalCommands = {
                     delete repoState.files[f];
                 });
                 printOutput("All files added to staging area.");
+                
+                // Check mission progress for Mission 1
+                if (currentMission === 1 && missionProgress === 1) {
+                    missionProgress = 2;
+                    printOutput("✅ Step 3 completed! You've added files to the staging area.");
+                }
             } else {
                 if (repoState.files[file]) {
                     repoState.staged[file] = repoState.files[file];
@@ -727,10 +796,13 @@ const terminalCommands = {
             addToHistory("commit -m \"" + message + "\"");
             
             // Check mission progress
-            if (currentMission === 1 && missionProgress === 1) {
-                missionProgress = 2;
+            if (currentMission === 1 && missionProgress === 2) {
+                missionProgress = 3;
                 printOutput("✅ Mission 1 completed! You've successfully initialized a repository and made your first commit.");
                 currentMission = null;
+            } else if (currentMission === 2 && missionProgress === 3) {
+                missionProgress = 4;
+                printOutput("✅ Step 3 completed! You've committed changes to the feature branch.");
             }
         }
     },
@@ -785,7 +857,7 @@ const terminalCommands = {
                     repoState.branches.push(branchName);
                     printOutput("Created branch " + branchName);
                     
-                    // Check mission progress
+                    // Check mission progress for Mission 2
                     if (currentMission === 2 && missionProgress === 0) {
                         missionProgress = 1;
                         printOutput("✅ Step 1 completed! You've created a new branch.");
@@ -814,10 +886,24 @@ const terminalCommands = {
                 repoState.currentBranch = branchName;
                 printOutput("Switched to branch '" + branchName + "'");
                 
-                // Check mission progress
-                if (currentMission === 2 && missionProgress === 2) {
-                    missionProgress = 3;
-                    printOutput("✅ Step 3 completed! You've switched back to the main branch.");
+                // Check mission progress for Mission 2
+                if (currentMission === 2) {
+                    if (branchName === 'feature-login' && missionProgress === 1) {
+                        missionProgress = 2;
+                        printOutput("✅ Step 2 completed! You've switched to the feature branch.");
+                        // Simulate making changes
+                        repoState.files['login.html'] = '<html>Login Page</html>';
+                        printOutput("📝 Created login.html file");
+                    } else if (branchName === 'main' && missionProgress === 4) {
+                        missionProgress = 5;
+                        printOutput("✅ Step 4 completed! You've switched back to the main branch.");
+                    }
+                }
+                
+                // Check mission progress for Mission 3
+                if (currentMission === 3 && missionProgress === 3) {
+                    missionProgress = 4;
+                    printOutput("✅ Step 4 completed! You've switched back to the main branch.");
                 }
             } else {
                 printOutput("error: pathspec '" + branchName + "' did not match any file(s) known to git");
@@ -849,11 +935,17 @@ const terminalCommands = {
                     printOutput(" file.txt | 1 +");
                     printOutput(" 1 file changed, 1 insertion(+)");
                     
-                    // Check mission progress
-                    if (currentMission === 2 && missionProgress === 3) {
-                        missionProgress = 4;
-                        printOutput("✅ Mission 2 completed! You've successfully merged a branch.");
+                    // Check mission progress for Mission 2
+                    if (currentMission === 2 && missionProgress === 5) {
+                        missionProgress = 6;
+                        printOutput("✅ Mission 2 completed! You've successfully created and merged a feature branch.");
                         currentMission = null;
+                    }
+                    
+                    // Check mission progress for Mission 3
+                    if (currentMission === 3 && missionProgress === 2) {
+                        missionProgress = 3;
+                        printOutput("✅ Step 3 completed! You've merged changes from the remote repository.");
                     }
                 }
             } else {
@@ -877,7 +969,7 @@ const terminalCommands = {
                 printOutput("Available missions:");
                 printOutput("  1 - Initialize Repository");
                 printOutput("  2 - Branching");
-                printOutput("  3 - Collaboration (coming soon)");
+                printOutput("  3 - Collaboration");
             }
         }
     },
@@ -915,6 +1007,18 @@ function startMission(missionNum) {
     
     switch (missionNum) {
         case 1:
+            // Reset repo state for mission
+            repoState = {
+                initialized: false,
+                files: {},
+                staged: {},
+                commits: [],
+                branches: ['main'],
+                currentBranch: 'main',
+                remote: null,
+                history: []
+            };
+            
             printOutput("🚀 Mission 1: Initialize Repository");
             printOutput("Your task: Create a new Git repository and make your first commit");
             printOutput("");
@@ -927,26 +1031,57 @@ function startMission(missionNum) {
             printOutput("💡 Tip: Type 'help' to see available commands");
             
             // Simulate creating a file
-            repoState.files['README.md'] = 'Initial content';
+            repoState.files['README.md'] = '# My Project\n\nThis is a sample project.';
             printOutput("📝 Created README.md file");
             break;
         case 2:
+            // Reset repo state for mission
+            repoState = {
+                initialized: true,
+                files: {},
+                staged: {},
+                commits: [{id: "a1b2c3d", message: "Initial commit", files: ["README.md"], branch: "main", timestamp: new Date()}],
+                branches: ['main'],
+                currentBranch: 'main',
+                remote: null,
+                history: []
+            };
+            
             printOutput("🚀 Mission 2: Branching");
             printOutput("Your task: Create and merge a feature branch");
             printOutput("");
             printOutput("Steps:");
             printOutput("1. Create a new branch with 'git branch feature-login'");
             printOutput("2. Switch to the new branch with 'git checkout feature-login'");
-            printOutput("3. Make changes and commit them");
+            printOutput("3. Make changes and commit them (git add . && git commit -m \"Add login page\")");
             printOutput("4. Switch back to main branch with 'git checkout main'");
             printOutput("5. Merge the feature branch with 'git merge feature-login'");
             printOutput("");
             printOutput("💡 Tip: Type 'help' to see available commands");
             break;
         case 3:
+            // Reset repo state for mission
+            repoState = {
+                initialized: true,
+                files: {},
+                staged: {},
+                commits: [{id: "a1b2c3d", message: "Initial commit", files: ["README.md"], branch: "main", timestamp: new Date()}],
+                branches: ['main'],
+                currentBranch: 'main',
+                remote: null,
+                history: []
+            };
+            
             printOutput("🚀 Mission 3: Collaboration");
-            printOutput("This mission is coming soon!");
-            currentMission = null;
+            printOutput("Your task: Work with remote repositories");
+            printOutput("");
+            printOutput("Steps:");
+            printOutput("1. Add a remote repository with 'git remote add origin https://github.com/user/repo.git'");
+            printOutput("2. Push your changes with 'git push origin main'");
+            printOutput("3. Simulate collaboration by fetching updates with 'git fetch'");
+            printOutput("4. Pull changes with 'git pull origin main'");
+            printOutput("");
+            printOutput("💡 Tip: Type 'help' to see available commands");
             break;
     }
 }
@@ -1013,8 +1148,8 @@ function setupMissionButtons() {
             const mission = parseInt(this.getAttribute('data-mission'));
             startMission(mission);
             
-            // Show the terminal section
-            showPage('terminal');
+            // Show the terminal section using the globally accessible function
+            window.showPage('terminal');
         });
     });
 }
