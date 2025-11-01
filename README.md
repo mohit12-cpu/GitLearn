@@ -24,12 +24,12 @@ GitLearn is a comprehensive, single-file web application designed to teach Git v
 ## Application Screenshots
 
 ### 3D Workflow Visualization
-![3D Workflow](https://placehold.co/600x300/1f2937/d1d5db?text=Interactive+3D+Git+Workflow)
+![3D Workflow](https://github.com/mohit12-cpu/GitLearn/blob/main/image/3D%20Workflow%20Visualization.png)
 
 Visualize Git operations in real-time with our interactive 3D graph that shows branching, committing, and merging.
 
 ### Command Reference
-![Command Reference](https://placehold.co/600x300/1f2937/d1d5db?text=Git+Command+Reference)
+![Command Reference](https://github.com/mohit12-cpu/GitLearn/blob/main/image/Command%20Reference.png)
 
 Access a comprehensive reference of Git commands with detailed explanations and practical examples.
 
@@ -39,7 +39,7 @@ Access a comprehensive reference of Git commands with detailed explanations and 
 Learn how to use Git within popular IDEs like Visual Studio Code and JetBrains products.
 
 ### Git Master Terminal
-![Git Terminal](https://placehold.co/600x300/1f2937/d1d5db?text=Git+Master+Terminal)
+![Git Terminal](https://github.com/mohit12-cpu/GitLearn/blob/main/image/Git%20Master%20Terminal.png)
 
 Practice Git commands in an interactive terminal environment with simulated repository operations.
 
