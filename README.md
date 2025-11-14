@@ -6,13 +6,13 @@
 
 ## Interactive Git Learning Platform
 
-GitLearn is a comprehensive, single-file web application designed to teach Git version control systems through interactive examples, visualizations, and practical exercises. The platform covers essential Git commands, advanced workflows, and IDE integration for popular development environments.
+GitLearn is a comprehensive, single-file web application designed to teach Git version control systems through interactive examples, visualisations, and practical exercises. The platform covers essential Git commands, advanced workflows, and IDE integration for popular development environments.
 
 ![GitLearn Interface](https://placehold.co/800x400/4f46e5/white?text=GitLearn+Interactive+Learning+Platform)
 
 ## Key Features
 
-- **Interactive 3D Workflow Visualization** - Real-time visualization of branching, committing, and merging operations
+- **Interactive 3D Workflow Visualisation** - Real-time visualisation of branching, committing, and merging operations
 - **Comprehensive Git Command Reference** - Detailed documentation for over 50 Git commands with practical examples
 - **IDE Integration Guides** - Step-by-step instructions for Git integration in VS Code and JetBrains IDEs
 - **Git Mastery Assessment** - Interactive quiz system to evaluate understanding of Git concepts
@@ -26,7 +26,7 @@ GitLearn is a comprehensive, single-file web application designed to teach Git v
 ### 3D Workflow
 ![3D Workflow](image/3D%20Workflow%20Visualization.png)
 
-Visualize Git operations in real-time with our interactive 3D graph that shows branching, committing, and merging.
+Visualise Git operations in real-time with our interactive 3D graph that shows branching, committing, and merging.
 
 ### Command Reference
 ![Command Reference](image/Command%20Reference.png)
@@ -59,7 +59,7 @@ No additional software installation or server setup is required.
 
 1. **Clone the Repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/mohit12-cpu/GitLearn.git
    ```
    Alternatively, download the `index.html` file directly.
 
@@ -86,7 +86,7 @@ The Git Master Terminal is an interactive in-browser terminal that simulates rea
 
 ### Features
 
-- **Realistic Terminal Interface** - Dark theme with monospace font for authentic developer experience
+- **Realistic Terminal Interface** - Dark theme with monospace font for an authentic developer experience
 - **Command Simulation** - All key Git commands with realistic responses
 - **Learning Missions** - Guided tutorials for common Git workflows
 - **Command History** - Navigate through previous commands with up/down arrow keys
@@ -94,7 +94,7 @@ The Git Master Terminal is an interactive in-browser terminal that simulates rea
 
 ### Supported Commands
 
-- `git init` - Initialize a new repository
+- `git init` - Initialise a new repository
 - `git status` - Show working tree status
 - `git add` - Add file contents to the index
 - `git commit` - Record changes to the repository
@@ -108,7 +108,7 @@ The Git Master Terminal is an interactive in-browser terminal that simulates rea
 
 ### Learning Missions
 
-1. **Initialize Repository** - Create a new Git repository and make your first commit
+1. **Initialise Repository** - Create a new Git repository and make your first commit
 2. **Branching** - Create and merge a feature branch
 3. **Collaboration** - Simulate working with remote repositories (coming soon)
 
@@ -122,7 +122,7 @@ The Git Master Terminal is an interactive in-browser terminal that simulates rea
 
 ## Contributing
 
-Contributions to enhance GitLearn are welcome. Please follow these guidelines:
+I want you to know that contributions to enhance GitLearn are welcome. Please follow these guidelines:
 
 ### Command Documentation
 
@@ -136,10 +136,10 @@ Git command content is maintained in JavaScript arrays within `index.html`:
 
 #### Command Object Structure
 
-```javascript
+```JavaScript
 {
     command: 'git [command] [args]',      // Primary command identifier
-    category: 'setup',                    // Functional categorization
+    category: 'setup',                    // Functional categorisation
     description: "Brief description",     // Concise functionality explanation
     syntax: 'git [command] [options]',    // Complete syntax specification
     example: 'git [command] --option-a\n  git [command] --option-b', // Practical examples
@@ -150,7 +150,7 @@ Git command content is maintained in JavaScript arrays within `index.html`:
 #### Command Categories
 
 **Primary Commands (`commands` array):**
-- `setup` - Configuration and initialization procedures
+- `setup` - Configuration and initialisation procedures
 - `snapshotting` - Staging and committing operations
 - `branching` - Branch management and merging
 - `remote` - Remote repository operations
@@ -160,7 +160,7 @@ Git command content is maintained in JavaScript arrays within `index.html`:
 
 **Extended Commands (`allGitCommands` array):**
 - `setup` - Setup & Configuration
-- `project` - Project initialization and cloning
+- `project` - Project initialisation and cloning
 - `snapshotting` - Basic Snapshotting
 - `branching` - Branching & Merging
 - `sharing` - Repository sharing and updates
@@ -174,7 +174,7 @@ Git command content is maintained in JavaScript arrays within `index.html`:
 
 Quiz questions are managed in the `const quizData = [...]` array with the following structure:
 
-```javascript
+```JavaScript
 {
     question: "Question text",
     answers: ["Option A", "Option B", "Option C", "Option D"],
@@ -189,7 +189,7 @@ To add new commands to the Git Master Terminal:
 1. Locate the `commands` object in the terminal logic section
 2. Add a new command object with the following structure:
 
-```javascript
+```JavaScript
 commandName: {
     description: "Brief description of the command",
     usage: "commandName [options]",
@@ -205,7 +205,7 @@ After implementing changes, save the file and refresh `index.html` in your brows
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for complete licensing information.
+This project is licensed under the MIT License. Please take a look at the [LICENSE](LICENSE) file for complete licensing information.
 
 ## Acknowledgements
 
