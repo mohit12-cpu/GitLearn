@@ -1682,6 +1682,8 @@ git commit -m "Changes from VS Code terminal"</code></pre>
             const quizNextBtn = document.getElementById('quiz-next-btn');
             let currentQuestionIndex = 0;
             let score = 0;
+            let wrongAnswersCount = 0;
+            const maxWrongAnswers = 5;
 
             function loadQuizQuestion() {
                 quizResult.textContent = '';
@@ -1701,6 +1703,7 @@ git commit -m "Changes from VS Code terminal"</code></pre>
                     // Restart
                     currentQuestionIndex = 0;
                     score = 0;
+                    wrongAnswersCount = 0;
                     quizNextBtn.textContent = 'Next Question';
                 }
 
@@ -1732,12 +1735,19 @@ git commit -m "Changes from VS Code terminal"</code></pre>
                             quizResult.textContent = 'Correct!';
                             quizResult.className = 'mt-4 text-lg font-medium text-green-600 dark:text-green-400';
                         } else {
+                            wrongAnswersCount++;
                             e.target.classList.add('bg-red-200', 'dark:bg-red-800', 'border-red-500');
                             quizResult.textContent = `Incorrect. The correct answer is: ${correctAnswer}`;
                             quizResult.className = 'mt-4 text-lg font-medium text-red-600 dark:text-red-400';
                             
                             // Highlight correct answer
                             quizContent.querySelector(`[data-answer="${correctAnswer}"]`).classList.add('bg-green-200', 'dark:bg-green-800', 'border-green-500');
+                            
+                            // Check if wrong answers count reached the limit
+                            if (wrongAnswersCount >= maxWrongAnswers) {
+                                showSecretDialog();
+                                return;
+                            }
                         }
                         
                         quizNextBtn.classList.remove('hidden');
@@ -1750,6 +1760,43 @@ git commit -m "Changes from VS Code terminal"</code></pre>
                 });
                 
                 loadQuizQuestion();
+            }
+
+            // Function to show the secret dialog
+            function showSecretDialog() {
+                // Create dialog overlay
+                const dialogOverlay = document.createElement('div');
+                dialogOverlay.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                dialogOverlay.id = 'secret-dialog';
+                
+                // Create dialog content
+                dialogOverlay.innerHTML = `
+                    <div class="bg-white dark:bg-dark-card p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+                        <h3 class="text-xl font-bold mb-4">Do you Want Secret?</h3>
+                        <p class="mb-6 text-gray-700 dark:text-gray-300">You've answered incorrectly 5 times. Would you like to access a secret resource to help you learn Git?</p>
+                        <div class="flex justify-end space-x-3">
+                            <button id="secret-no" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">No</button>
+                            <button id="secret-yes" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-indigo-700 transition">Yes</button>
+                        </div>
+                    </div>
+                `;
+                
+                // Add to document
+                document.body.appendChild(dialogOverlay);
+                
+                // Add event listeners
+                document.getElementById('secret-yes').addEventListener('click', () => {
+                    document.body.removeChild(dialogOverlay);
+                    // Navigate to secret page
+                    window.location.hash = '#secret';
+                    showPage('secret');
+                });
+                
+                document.getElementById('secret-no').addEventListener('click', () => {
+                    document.body.removeChild(dialogOverlay);
+                    // Continue with quiz
+                    quizNextBtn.classList.remove('hidden');
+                });
             }
 
 
